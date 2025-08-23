@@ -9,7 +9,6 @@ namespace ViSolEngine {
 		UUID uuid = INVALID_ID;
 		do {
 			uuid = distribution(generator);
-            std::cout << "get uuid: " << uuid << std::endl;
 		} while (uuid == INVALID_ID);
 
 		return uuid;

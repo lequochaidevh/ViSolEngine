@@ -12,7 +12,7 @@ namespace ViSolEngine
 		None
 	};
 
-	struct ApplicationConfiguration; // Forward delaration
+	struct ApplicationConfiguration; // Forward delaration when not include application.h
 
 	/*for close source*/
 	class EventDispatcher;

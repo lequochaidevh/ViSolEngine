@@ -30,3 +30,6 @@ delete_if_exist() {
         rm -rf $file_name
     fi
 }
+
+# TODO:
+# create_if_not_exist()

@@ -1,6 +1,6 @@
 #pragma once 
-
-#include"pch.h"
+#include "core/logger/logger.h"
+#include "pch.h"
 #include "eventAction.h"
 
 /*
@@ -20,16 +20,16 @@ namespace ViSolEngine {
 
 		template<typename T>
 		void addEventListener(const eventCallback<T>& callback) {
-			VISOL_STATIC_ASSERT(std::is_base_of<EventContext, T>::value && "add invalid EventContext");
+			VISOL_STATIC_ASSERT(std::is_base_of<EventContext, T>::value && "Add invalid EventContext");
 			EventID eventID = getTypeUUID<T>();
-			CORE_LOG_INFO("Create event with ID {0}", eventID);
+			CORE_LOG_DEBUG("Create event type: {0} - with ID: {1} ", typeid(T).name(), eventID);
 			IEventAction* eventAction = new EventAction<T>(callback);
 			mEventActionMap[eventID].emplace_back(eventAction);
 		}
 
 		template<typename T>
 		void dispatchListener(const T& evenContext) {
-			VISOL_STATIC_ASSERT(std::is_base_of<EventContext, T>::value && "dispatch invalid EventContext");
+			VISOL_STATIC_ASSERT(std::is_base_of<EventContext, T>::value && "Dispatch invalid EventContext");
 			EventID eventID = getTypeUUID<T>();
 			VISOL_ASSERT(mEventActionMap.find(eventID) != mEventActionMap.end() && "Unknow event type");
 			for (auto eventAction : mEventActionMap.at(eventID)) {
