@@ -2,7 +2,10 @@
 
 /*1*/
 #include "pch.h"
-
+/*Define Macro IS */
+#include"core/input/keyCode.h"
+#define IS_KEY_FUNC VISOL_FORCE_INLINE bool isKey(EKeyCode keyCode) const { return mKeyCode == (int32_t)keyCode; } ;
+#define IS_BUTTON_FUNC VISOL_FORCE_INLINE bool isButton(EMouseButton button) const { return mButton == (int32_t)button; } ;
 namespace ViSolEngine {
 	class VISOL_API EventContext {
 	public:
@@ -27,6 +30,9 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE int32_t getKeyCode() const { return mKeyCode; }
 	private:
 		int32_t mKeyCode;
+	public:
+		VISOL_FORCE_INLINE int32_t getKey() const { return mKeyCode; }
+		IS_KEY_FUNC;
 	};
 
 	class VISOL_API KeyHeldEvent : public EventContext {
@@ -35,6 +41,9 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE int32_t getKeyCode() const { return mKeyCode; }
 	private:
 		int32_t mKeyCode;
+	public:
+		VISOL_FORCE_INLINE int32_t getKey() const { return mKeyCode; }
+		IS_KEY_FUNC;
 	};
 
 	class VISOL_API KeyReleasedEvent : public EventContext {
@@ -43,6 +52,9 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE int32_t getKeyCode() const { return mKeyCode; }
 	private:
 		int32_t mKeyCode;
+	public:
+		VISOL_FORCE_INLINE int32_t getKey() const { return mKeyCode; }
+		IS_KEY_FUNC;
 	};
 
 	class VISOL_API MouseMovedEvent : public EventContext {
@@ -74,6 +86,8 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE int32_t getButton() const { return mButton; }
 	private:
 		int32_t mButton;
+	public:
+		IS_BUTTON_FUNC;
 	};
 
 	class VISOL_API MouseButtonHeldEvent : public EventContext {
@@ -82,6 +96,8 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE int32_t getButton() const { return mButton; }
 	private:
 		int32_t mButton;
+	public:
+		IS_BUTTON_FUNC;
 	};
 
 	class VISOL_API MouseButtonReleasedEvent : public EventContext {
@@ -90,6 +106,8 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE int32_t getButton() const { return mButton; }
 	private:
 		int32_t mButton;
+	public:
+		IS_BUTTON_FUNC;
 	};
 
 }
