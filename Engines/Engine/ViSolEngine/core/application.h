@@ -8,6 +8,7 @@
 #include "core/event/eventDispatcher.h"
 #include "core/input/inputState.h"
 #include "core/layer/layerStack.h"
+#include "core/time/time.h"
 namespace ViSolEngine
 {
 	struct VISOL_API ApplicationConfiguration
@@ -15,6 +16,8 @@ namespace ViSolEngine
 		uint16_t width, height;
 		const char* title;
 		EWindowPlatformSpec eWindowSpec;
+		int32_t maxFPS;
+		bool runState;
 	};
 	class VISOL_API Application
 	{
@@ -57,6 +60,9 @@ namespace ViSolEngine
 
 	private:
 		Unique<LayerStack> mLayerStack;
+
+	private:
+		Time mTime;
 	};
 
 	extern Application *createApplication();

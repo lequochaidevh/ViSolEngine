@@ -50,24 +50,48 @@ namespace ViSolEngine
         CORE_LOG_INFO("App is running: {0} {1} {2} ", mConfig.width, mConfig.height, mConfig.title);
         onInitClient();
 
-        while (!mNativeWindow->shouldClose())
+		const float MAX_DELTA_TIME = 0.05f;
+		float minDeltaTime = 1.0f / mConfig.maxFPS;
+		
+        while (mConfig.runState && !mNativeWindow->shouldClose())
         {
-            mNativeWindow->swapbuffers();
-			/*9_Browse LayerStack class, this have vector*/
+			static float lastFrameTime = 0.0f;
+			// 
+			while (mNativeWindow->getRealTime() - lastFrameTime < minDeltaTime) {} // holding time
+			float currentFrameTime = mNativeWindow->getRealTime();
+			mTime = Time(currentFrameTime - lastFrameTime); // explicit
+			lastFrameTime = currentFrameTime;
+			
+			mNativeWindow->pollsEvent();
+			
 			for (auto layer : *mLayerStack.get()) {
 				layer->onProcessInput(*mInputState);
 			}
-
-			for (auto layer : *mLayerStack.get()) {
-				layer->onUpdate(0.0f);
+			
+			while (mTime.getDeltaTime() > MAX_DELTA_TIME) {
+				for (auto layer : *mLayerStack.get()) {
+					layer->onUpdate(Time(MAX_DELTA_TIME));
+				}
+				mNativeWindow->swapbuffers();
+				for (auto layer : *mLayerStack.get()) {
+					layer->onRender();
+				}
+				mTime -= Time(MAX_DELTA_TIME);
 			}
-
-			mNativeWindow->pollsEvent();
+				
+			
+			for (auto layer : *mLayerStack.get()) {
+				layer->onUpdate(mTime);
+			}
+			
 			for (auto layer : *mLayerStack.get()) {
 				layer->onRender();
 			}
-        }
 
+			mNativeWindow->swapbuffers();
+        }
+		
+		
         onShutdownClient();
     }
 
@@ -85,6 +109,11 @@ namespace ViSolEngine
 	}
 
 	bool Application::onKeyPressedEvent(const KeyPressedEvent& eventContext) {
+		if (eventContext.isKey(EKeyCode::ESCAPE)) {
+			LOG_DEBUG("-------------ESC was pressed - Exit application-------------");
+			mConfig.runState = false;
+			return true;
+		}
 		DISPATCH_LAYER_EVENT(KeyPressedEvent, eventContext);
 		return false;
 	}

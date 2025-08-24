@@ -10,3 +10,5 @@ vendor_build/
 *.includes
 *.creator.user
 tmp/
+command_git*.txt
+.gitignore

@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "core/logger/logger.h"
 #include "core/event/eventContext.h"
+#include "core/time/time.h"
 
 /*1 Declare LayerClass*/
 namespace ViSolEngine {
@@ -16,7 +17,7 @@ namespace ViSolEngine {
 		virtual void onAttach() {}
 		virtual void onDetach() {}
 		virtual void onProcessInput(const struct InputState&) {}
-		virtual void onUpdate(float deltaTime) {}
+		virtual void onUpdate(Time deltaTime) {}
 		virtual void onRender() {}
 
 		/* 2 Reference Application Action: Event > Application > Layer */

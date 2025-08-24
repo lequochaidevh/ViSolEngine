@@ -1,6 +1,7 @@
 #pragma once
 /*1*/
 #include "core/input/inputState.h"
+#include "core/time/time.h"
 
 class GLFWwindow;
 namespace ViSolEngine
@@ -33,7 +34,8 @@ namespace ViSolEngine
 		virtual void pollsEvent() = 0;
 		virtual bool shouldClose() = 0;
 		virtual InputState* getInputState() = 0;
-
+		
+		virtual float getRealTime() = 0;
 	private:
 	protected:
 		NativeWindow() = default;
@@ -48,6 +50,8 @@ namespace ViSolEngine
 		void pollsEvent() override;
 		bool shouldClose() override;
 		InputState* getInputState() override;
+
+		float getRealTime() override;
 
 		GLFWPlatformWindow();
 		~GLFWPlatformWindow();

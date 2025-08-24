@@ -126,4 +126,9 @@ namespace ViSolEngine {
 	InputState* GLFWPlatformWindow::getInputState() {
 		return &mData.input;
 	}
+
+	float GLFWPlatformWindow::getRealTime() {
+		return glfwGetTime();
+	}
+
 }

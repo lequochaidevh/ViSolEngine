@@ -12,8 +12,8 @@ public:
 	virtual bool onInitClient() override {
 		LOG_INFO("ViRobot is init");
 		mLayer = new UserPlayLayer();
-		mUI = new UI_Layer();
-		pushOverlayLayer(mUI);
+		// mUI = new UI_Layer();
+		// pushOverlayLayer(mUI);
 		pushLayer(mLayer);
 		return true;
 	}
@@ -21,7 +21,7 @@ public:
 	virtual void onShutdownClient() override {
 		LOG_INFO("ViRobot is shutdown");
 		popLayer(mLayer);
-		popOverlayLayer(mUI);
+		// popOverlayLayer(mUI);
 	}
 private:
 	ViSolEngine::Layer* mLayer, * mUI;
@@ -34,6 +34,8 @@ ViSolEngine::Application* ViSolEngine::createApplication() {
 	appConfig.height = 600;
 	appConfig.title = "ViSolEngine version 1.0.0";
 	appConfig.eWindowSpec = ViSolEngine::EWindowPlatformSpec::GLFW;
+	appConfig.maxFPS = 60;
+	appConfig.runState = true;
 
 	return new ViRobot(appConfig);
 }
