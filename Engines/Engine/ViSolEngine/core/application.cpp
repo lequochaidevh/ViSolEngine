@@ -129,12 +129,6 @@ namespace ViSolEngine
 	}
 
 	bool Application::onMouseMovedEvent(const MouseMovedEvent& eventContext) {
-		// Example: mouse move event
-		CORE_LOG_TRACE("Mouse position: {}, {}. Mouse relative: {}, {}", \
-			eventContext.getPositionX(), \
-			eventContext.getPositionY(), \
-			eventContext.getOffsetX(), \
-			eventContext.getOffsetY());
 		DISPATCH_LAYER_EVENT(MouseMovedEvent, eventContext);
 		return false;
 	}
