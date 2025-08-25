@@ -16,35 +16,48 @@ public:
 		/*Allocate avaiable memory in heap*/
 		void *address = malloc(size);
 		/* Init allocator memory size manager by LinearAllocator */
-		mAllocator = new ViSolEngine::StackAllocator(size, address);
 		struct RobotObject
 		{
 			size_t ID = 0;
 			std::string Name = "RobotObject";
 		};
+		
+		mAllocator = new ViSolEngine::PoolAllocator(size, address, sizeof(RobotObject), alignof(RobotObject));
 
 		std::vector<RobotObject *> robotObjects;
-		for (int i = 0; i < 10000; i++)
+		for (int i = 0; i < 10; i++)
 		{
-			void *memory = mAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+			void *memory = mAllocator->allocateChunk();
 			RobotObject *go = new (memory) RobotObject();
 			go->ID = i;
 			go->Name = "RobotObject: " + std::to_string(i);
 			robotObjects.emplace_back(go);
 		}
+		LOG_TRACE("Free memory");
+		mAllocator->memFree(robotObjects[1]);
+		mAllocator->memFree(robotObjects[2]);
 
-		mAllocator->memClear();
+		void *memory = mAllocator->allocateChunk();
+		RobotObject *go = new (memory) RobotObject();
+		go->ID = 11;
+		go->Name = "RobotObject: " + std::to_string(11);
+		
+		memory = mAllocator->allocateChunk();
+		go = new (memory) RobotObject();
+		go->ID = 12;
+		go->Name = "RobotObject: " + std::to_string(12);
+		// mAllocator->memClear();
 		robotObjects.clear();
-		for (int i = 0; i < 10000; i++)
-		{
-			void *memory = mAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
-			RobotObject *go = new (memory) RobotObject();
-			go->ID = i + 10000;
-			go->Name = "RobotObject: " + std::to_string(i);
-			robotObjects.emplace_back(go);
-		}
-		mAllocator->memClear();
-		robotObjects.clear();
+		// for (int i = 0; i < 10; i++)
+		// {
+		// 	void *memory = mAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		// 	RobotObject *go = new (memory) RobotObject();
+		// 	go->ID = i + 10000;
+		// 	go->Name = "RobotObject: " + std::to_string(i);
+		// 	robotObjects.emplace_back(go);
+		// }
+		// mAllocator->memClear();
+		// robotObjects.clear();
 	}
 
 	virtual void onDetach() override
@@ -79,7 +92,7 @@ public:
 	}
 
 private:
-	ViSolEngine::MemoryAllocator *mAllocator;
+	ViSolEngine::PoolAllocator *mAllocator;
 };
 
 void testCaseMemoryAllocator(ViSolEngine::MemoryAllocator *mAllocator)

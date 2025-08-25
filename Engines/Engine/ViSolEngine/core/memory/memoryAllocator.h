@@ -17,6 +17,8 @@ namespace ViSolEngine {
 	protected:
 		uint8_t getAddressAdjustment(const void* address, uint8_t alignment, uint8_t extraMemory);
 	protected:
+		size_t alignForward(size_t memorySize, uint8_t alignment);
+	protected:
 		void* mStartAddress;
 		size_t mMemorySize;
 		size_t mUsedMemory;
@@ -42,5 +44,22 @@ namespace ViSolEngine {
 		virtual void* memAllocate(size_t memorySize, uint8_t alignment) override;
 		virtual void memFree(void* memory) override;
 		virtual void memClear() override;
+	};
+
+	class VISOL_API PoolAllocator : public MemoryAllocator {
+		struct FreeNode {
+			FreeNode* next;
+		};
+	public:
+		PoolAllocator(size_t memorySize, void* address, size_t chunkSize, uint8_t chunkAlignment);
+		~PoolAllocator();
+		void* allocateChunk();
+		virtual void memFree(void* memory) override;
+		virtual void memClear() override;
+	private:
+		size_t mChunkSize;
+		uint8_t mChunkAlignment;
+		FreeNode* mFreeListHead;
+		uint8_t mAddressOffset;
 	};
 }

@@ -61,4 +61,17 @@ namespace ViSolEngine {
 		}
 		return padding;
 	}
+
+	/*
+	* @param: memorySize: adress , interger
+	* return address.
+	*/
+	size_t MemoryAllocator::alignForward(size_t memorySize, uint8_t alignment) {
+		VISOL_ASSERT(isPowerOfTwo(alignment) && "Alignment is invalid");
+		uintptr_t remainder = memorySize & (alignment - 1);
+		if (remainder != 0) {
+			memorySize += alignment - remainder;
+		}
+		return memorySize;
+	}
 }
