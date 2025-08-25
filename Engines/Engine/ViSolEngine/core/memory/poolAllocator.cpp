@@ -31,7 +31,7 @@ namespace ViSolEngine {
 	PoolAllocator::~PoolAllocator() {
 	}
 
-	void* PoolAllocator::allocateChunk() {
+	void* PoolAllocator::memAllocateChunk() {
 		FreeNode* node = mFreeListHead;
 		VISOL_ASSERT(node != nullptr && "PoolAllocator is full, no more chunk to allocate");
 		mFreeListHead = node->next;

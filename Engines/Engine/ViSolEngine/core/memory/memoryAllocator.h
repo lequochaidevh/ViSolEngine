@@ -53,7 +53,7 @@ namespace ViSolEngine {
 	public:
 		PoolAllocator(size_t memorySize, void* address, size_t chunkSize, uint8_t chunkAlignment);
 		~PoolAllocator();
-		void* allocateChunk();
+		void* memAllocateChunk();
 		virtual void memFree(void* memory) override;
 		virtual void memClear() override;
 	private:
