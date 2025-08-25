@@ -16,7 +16,7 @@ public:
 		/*Allocate avaiable memory in heap*/
 		void *address = malloc(size);
 		/* Init allocator memory size manager by LinearAllocator */
-		mAllocator = new ViSolEngine::LinearAllocator(size, address);
+		mAllocator = new ViSolEngine::StackAllocator(size, address);
 		struct RobotObject
 		{
 			size_t ID = 0;

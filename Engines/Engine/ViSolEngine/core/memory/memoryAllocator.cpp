@@ -46,4 +46,19 @@ namespace ViSolEngine {
 		*/
 		return (alignment & (alignment - 1)) == 0;
 	}
+
+	uint8_t MemoryAllocator::getAddressAdjustment(const void* address, uint8_t alignment, uint8_t extraMemory) {
+		VISOL_ASSERT(isPowerOfTwo(alignment) && "Alignment is invalid");
+		uint8_t padding = getAddressAdjustment(address, alignment);
+		if (padding < extraMemory) {
+			uint8_t remainPadding = extraMemory - padding;
+			if ((remainPadding & (alignment - 1)) != 0) {
+				padding += alignment * (1 + (remainPadding / alignment));
+			}
+			else {
+				padding += alignment * (remainPadding / alignment);
+			}
+		}
+		return padding;
+	}
 }

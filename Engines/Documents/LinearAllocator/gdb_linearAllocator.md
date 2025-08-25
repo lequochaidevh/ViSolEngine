@@ -54,14 +54,18 @@ Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 [19:39:49] [onInitClient:13] [Client] [Thread:18881] ViRobot is init
 [19:39:49] [Layer:14] [ViSolEngine] [Thread:18881] Create layer ID: 16764893585577351372
 [19:39:49] [onAttach:13] [Client] [Thread:18881] UserPlayLayer is attached
-
+```sh
 Breakpoint 1, UserPlayLayer::onAttach (this=0x555555c441c0) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:37
 37			robotObjects.clear();
-(gdb) set $i = 0
-(gdb) while $i < 5
- >    printf "i=%d, ID=%d, Name=%s\n", $i, robotObjects[$i]->ID, robotObjects[$i]->Name.c_str()
- >    set $i = $i + 1
- >end
+
+
+set $i = 0
+while $i < 5
+printf "i=%d, ID=%d, Name=%s\n", $i, robotObjects[$i]->ID, robotObjects[$i]->Name.c_str()
+set $i = $i + 1
+end
+
+
 i=0, ID=0, Name=RobotObject: 0
 i=1, ID=1, Name=RobotObject: 1
 i=2, ID=2, Name=RobotObject: 2
@@ -84,4 +88,5 @@ i=3, ID=10003, Name=RobotObject: 3
 i=4, ID=10004, Name=RobotObject: 4
 (gdb) c
 Continuing.
+```
 ##############################################################################
