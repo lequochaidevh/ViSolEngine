@@ -6,7 +6,7 @@ namespace ViSolEngine {
 	}
 	LinearAllocator::~LinearAllocator() {
 	}
-	void* LinearAllocator::memAllocate(size_t memorySize, uint8_t alignment) {
+	void* LinearAllocator::allocate(size_t memorySize, uint8_t alignment) {
 		VISOL_ASSERT(memorySize > INVALID_MEMORY_SIZE && "Allocate invalid memory size");
 		VISOL_ASSERT(alignment < MAX_ALLOWED_ALIGNMENT && "Invalid alignment");
 		union {
@@ -25,10 +25,10 @@ namespace ViSolEngine {
 		mAllocationCount += 1;
 		return asVoidPtrAddress;
 	}
-	void LinearAllocator::memFree(void* memory) {
+	void LinearAllocator::free(void* memory) {
 		VISOL_ASSERT(false && "LinearAllocator does not support for free address");
 	}
-	void LinearAllocator::memClear() {
+	void LinearAllocator::clear() {
 		mUsedMemory = 0;
 		mAllocationCount = 0;
 	}

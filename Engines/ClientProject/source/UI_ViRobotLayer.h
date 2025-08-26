@@ -66,7 +66,7 @@ void testCaseMemoryAllocator(ViSolEngine::MemoryAllocator* mAllocator) {
 	std::vector<RobotObject*> gameObjects;
 
 	for (int i = 0; i < 10; i++) {
-		void* memory = mAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		void* memory = mAllocator->allocate(sizeof(RobotObject), alignof(RobotObject));
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		go->Name = "RobotObject: " + std::to_string(i);
@@ -74,24 +74,24 @@ void testCaseMemoryAllocator(ViSolEngine::MemoryAllocator* mAllocator) {
 	}
 
 	#ifdef LINEAR_MEMORY_ALLOCATOR 
-		mAllocator->memClear();
+		mAllocator->clear();
 	#elif defined(STACK_MEMORY_ALLOCATOR)
 		/*Clear Memory 1 stack*/
 		for (auto iter = gameObjects.rbegin(); iter != gameObjects.rend(); ++iter) {
-			mAllocator->memFree(*iter);
+			mAllocator->free(*iter);
 		}
 	#endif 
 	
 	gameObjects.clear();
 
 	for (int i = 0; i < 10; i++) {
-		void* memory = mAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		void* memory = mAllocator->allocate(sizeof(RobotObject), alignof(RobotObject));
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i + 10;
 		go->Name = "RobotObject: " + std::to_string(i);
 		gameObjects.emplace_back(go);
 	}
-	mAllocator->memClear();
+	mAllocator->clear();
 	gameObjects.clear();
 }
 
@@ -110,40 +110,40 @@ void testCaseMemoryPoolAllocator(ViSolEngine::PoolAllocator* mAllocator) {
 
 	std::vector<RobotObject*> gameObjects;
 	for (int i = 0; i < 10; i++) {
-		void* memory = mAllocator->memAllocateChunk();
+		void* memory = mAllocator->allocateChunk();
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		go->Name = "RobotObject: " + std::to_string(i);
 		gameObjects.emplace_back(go);
 	}
 
-	mAllocator->memFree(gameObjects[1]);
-	mAllocator->memFree(gameObjects[2]);
+	mAllocator->free(gameObjects[1]);
+	mAllocator->free(gameObjects[2]);
 
-	void* memory = mAllocator->memAllocateChunk();
+	void* memory = mAllocator->allocateChunk();
 	RobotObject* go = new (memory)RobotObject();
 	go->ID = 11;
 	go->Name = "RobotObject: " + std::to_string(11);
 	gameObjects.emplace_back(go);
 
-	memory = mAllocator->memAllocateChunk();
+	memory = mAllocator->allocateChunk();
 	go = new (memory)RobotObject();
 	go->ID = 12;
 	go->Name = "RobotObject: " + std::to_string(12);
 	gameObjects.emplace_back(go);
 
-	mAllocator->memClear();
+	mAllocator->clear();
 	gameObjects.clear();
 
 	for (int i = 0; i < 10; i++) {
-		void* memory = mAllocator->memAllocateChunk();
+		void* memory = mAllocator->allocateChunk();
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i + 10;
 		go->Name = "RobotObject: " + std::to_string(i);
 		gameObjects.emplace_back(go);
 	}
 
-	mAllocator->memClear();
+	mAllocator->clear();
 	gameObjects.clear();
 }
 
@@ -197,23 +197,23 @@ void testPerformanceMemoryAllocator() {
 	startTime = std::chrono::high_resolution_clock::now();
 
 	for (int i = 0; i < numOfObjects; i++) {
-		void* memory = mLinearAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		void* memory = mLinearAllocator->allocate(sizeof(RobotObject), alignof(RobotObject));
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		objects.emplace_back(go);
 	}
 
-	mLinearAllocator->memClear();
+	mLinearAllocator->clear();
 	objects.clear();
 
 	for (int i = 0; i < numOfObjects; i++) {
-		void* memory = mLinearAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		void* memory = mLinearAllocator->allocate(sizeof(RobotObject), alignof(RobotObject));
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		objects.emplace_back(go);
 	}
 
-	mLinearAllocator->memClear();
+	mLinearAllocator->clear();
 	objects.clear();
 
 	endTime = std::chrono::high_resolution_clock::now();
@@ -224,23 +224,23 @@ void testPerformanceMemoryAllocator() {
 	// STACK ALLOCATOR
 	startTime = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < numOfObjects; i++) {
-		void* memory = mStackAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		void* memory = mStackAllocator->allocate(sizeof(RobotObject), alignof(RobotObject));
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		objects.emplace_back(go);
 	}
 
-	mStackAllocator->memClear();
+	mStackAllocator->clear();
 	objects.clear();
 
 	for (int i = 0; i < numOfObjects; i++) {
-		void* memory = mStackAllocator->memAllocate(sizeof(RobotObject), alignof(RobotObject));
+		void* memory = mStackAllocator->allocate(sizeof(RobotObject), alignof(RobotObject));
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		objects.emplace_back(go);
 	}
 
-	mStackAllocator->memClear();
+	mStackAllocator->clear();
 	objects.clear();
 
 	endTime = std::chrono::high_resolution_clock::now();
@@ -251,23 +251,23 @@ void testPerformanceMemoryAllocator() {
 	// Pool ALLOCATOR
 	startTime = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < numOfObjects; i++) {
-		void* memory = mPoolAllocator->memAllocateChunk();
+		void* memory = mPoolAllocator->allocateChunk();
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		objects.emplace_back(go);
 	}
 
-	mPoolAllocator->memClear();
+	mPoolAllocator->clear();
 	objects.clear();
 
 	for (int i = 0; i < numOfObjects; i++) {
-		void* memory = mPoolAllocator->memAllocateChunk();
+		void* memory = mPoolAllocator->allocateChunk();
 		RobotObject* go = new (memory)RobotObject();
 		go->ID = i;
 		objects.emplace_back(go);
 	}
 
-	mPoolAllocator->memClear();
+	mPoolAllocator->clear();
 	objects.clear();
 
 	endTime = std::chrono::high_resolution_clock::now();
