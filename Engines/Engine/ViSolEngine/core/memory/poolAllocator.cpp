@@ -25,13 +25,13 @@ namespace ViSolEngine {
 		VISOL_ASSERT(mChunkSize >= sizeof(FreeNode) && "Invalid chunk size");
 		VISOL_ASSERT(mMemorySize >= mChunkSize && "Invalid memory size");
 		mFreeListHead = nullptr;
-		this->memClear();
+		this->clear();
 	}
 
 	PoolAllocator::~PoolAllocator() {
 	}
 
-	void* PoolAllocator::memAllocateChunk() {
+	void* PoolAllocator::allocate() {
 		FreeNode* node = mFreeListHead;
 		VISOL_ASSERT(node != nullptr && "PoolAllocator is full, no more chunk to allocate");
 		mFreeListHead = node->next;
@@ -40,16 +40,11 @@ namespace ViSolEngine {
 		return node;
 	}
 
-	void PoolAllocator::memFree(void* memory) {
+	void PoolAllocator::free(void* memory) {
 		VISOL_ASSERT(memory != nullptr && "Free invalid memory address");
 		uintptr_t numberOfChunks = mMemorySize / mChunkSize;
-		union {
-			void* asVoidPtrAddress;
-			char* asCharPtrAddress;
-		};
-		asVoidPtrAddress = mStartAddress;
-		bool isInBound = memory >= asVoidPtrAddress && memory < asCharPtrAddress + mAddressOffset + (numberOfChunks - 1) * mChunkSize;
-		VISOL_ASSERT(isInBound && "Free out of bound memory address");
+		VISOL_ASSERT(contains(memory) && "Free out of bound memory address");
+		
 		FreeNode* node = reinterpret_cast<FreeNode*>(memory);
 		node->next = mFreeListHead; // Its make value in vector change
 		mFreeListHead = node;
@@ -57,7 +52,7 @@ namespace ViSolEngine {
 		mAllocationCount--;
 	}
 
-	void PoolAllocator::memClear() {
+	void PoolAllocator::clear() {
 		size_t numberOfChunks = mMemorySize / mChunkSize;
 		union {
 			void* asVoidPtrAddress;
@@ -71,6 +66,18 @@ namespace ViSolEngine {
 		}
 		mUsedMemory = 0;
 		mAllocationCount = 0;
+	}
+
+	bool PoolAllocator::contains(void* memory) {
+		union {
+			void* asVoidPtrAddress;
+			uintptr_t asUintPtrAddress;
+		};
+		asVoidPtrAddress = mStartAddress;
+		uintptr_t numberOfChunks = mMemorySize / mChunkSize;
+		uintptr_t uintPtrMemory = reinterpret_cast<uintptr_t>(memory);
+		// is bounding
+		return uintPtrMemory >= asUintPtrAddress && uintPtrMemory <= asUintPtrAddress + mAddressOffset + (numberOfChunks - 1) * mChunkSize;
 	}
 
 }

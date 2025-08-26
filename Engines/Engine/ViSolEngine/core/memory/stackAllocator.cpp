@@ -11,7 +11,7 @@ namespace ViSolEngine {
 
 	}
 
-	void* StackAllocator::memAllocate(size_t memorySize, uint8_t alignment) {
+	void* StackAllocator::allocate(size_t memorySize, uint8_t alignment) {
 		VISOL_ASSERT(memorySize > INVALID_MEMORY_SIZE && "Allocate invalid memory size");
 		VISOL_ASSERT(alignment < MAX_ALLOWED_ALIGNMENT && "Invalid alignment");
 
@@ -43,7 +43,7 @@ namespace ViSolEngine {
 		return asVoidPtrAddress;
 	}
 
-	void StackAllocator::memFree(void* memory) {
+	void StackAllocator::free(void* memory) {
 		union {
 			void* asVoidPtrAddress;
 			uintptr_t asUintPtrAddress;
@@ -60,7 +60,7 @@ namespace ViSolEngine {
 		mAllocationCount--;
 	}
 
-	void StackAllocator::memClear() {
+	void StackAllocator::clear() {
 		mUsedMemory = 0;
 		mAllocationCount = 0;
 	}
