@@ -71,3 +71,16 @@ int numOfObjects = 2000000; // first test
 [23:10:38] [testPerformanceMemoryAllocator:275] [ViSolEngine] [Thread:20346] PoolAllocator takes: 0.123882674 seconds
 [23:10:38] [testPerformanceMemoryAllocator:277] [ViSolEngine] [Thread:20346] DONE TESTING MEMROY ALLOCATOR
 ```
+
+
+```log
+	int numOfObjects = 40000000
+
+[19:12:30] [testPerformanceMemoryAllocator:192] [ViSolEngine] [Thread:7642] Delete operator takes: 13.250692074 seconds
+[19:12:40] [testPerformanceMemoryAllocator:221] [ViSolEngine] [Thread:7642] LinearAllocator takes: 9.99689373 seconds
+[19:12:51] [testPerformanceMemoryAllocator:248] [ViSolEngine] [Thread:7642] StackAllocator takes: 10.668193789 seconds
+[19:13:02] [testPerformanceMemoryAllocator:275] [ViSolEngine] [Thread:7642] PoolAllocator takes: 9.813763156 seconds
+[19:13:02] [testPerformanceMemoryAllocator:277] [ViSolEngine] [Thread:7642] DONE TESTING MEMROY ALLOCATOR
+
+
+```

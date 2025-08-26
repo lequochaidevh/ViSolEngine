@@ -151,18 +151,14 @@ void testPerformanceMemoryAllocator() {
 	ViSolEngine::LinearAllocator* mLinearAllocator;
 	ViSolEngine::StackAllocator* mStackAllocator;
 	ViSolEngine::PoolAllocator* mPoolAllocator;
-	size_t size = 128 * 1024 * 1024;
+	size_t size = 2000 * 1024 * 1024;
 
 	struct RobotObject {
 		size_t ID = 0;
 		std::string Name = "RobotObject";
 	};
 
-	mLinearAllocator = new ViSolEngine::LinearAllocator(size, malloc(size));
-	mStackAllocator = new ViSolEngine::StackAllocator(size, malloc(size));
-	mPoolAllocator = new ViSolEngine::PoolAllocator(size, malloc(size), sizeof(RobotObject), alignof(RobotObject));
-
-	int numOfObjects = 400000;
+	int numOfObjects = 40000000;
 	std::vector<RobotObject*> objects;
 
 	// NEW and DELETE operator
@@ -195,6 +191,8 @@ void testPerformanceMemoryAllocator() {
 	std::chrono::duration<double, std::milli> duration = endTime - startTime;
 	CORE_LOG_INFO("Delete operator takes: {0} seconds", duration.count() / 1000.0f);
 
+
+	mLinearAllocator = new ViSolEngine::LinearAllocator(size, malloc(size));
 	// LINEAR ALLOCATOR
 	startTime = std::chrono::high_resolution_clock::now();
 
@@ -222,6 +220,7 @@ void testPerformanceMemoryAllocator() {
 	duration = endTime - startTime;
 	CORE_LOG_INFO("LinearAllocator takes: {0} seconds", duration.count() / 1000.0f);
 
+	mStackAllocator = new ViSolEngine::StackAllocator(size, malloc(size));
 	// STACK ALLOCATOR
 	startTime = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < numOfObjects; i++) {
@@ -248,6 +247,7 @@ void testPerformanceMemoryAllocator() {
 	duration = endTime - startTime;
 	CORE_LOG_INFO("StackAllocator takes: {0} seconds", duration.count() / 1000.0f);
 
+	mPoolAllocator = new ViSolEngine::PoolAllocator(size, malloc(size), sizeof(RobotObject), alignof(RobotObject));
 	// Pool ALLOCATOR
 	startTime = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < numOfObjects; i++) {
