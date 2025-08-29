@@ -21,6 +21,7 @@
 #include <unordered_map>
 #include <map>
 #include <stack>
+#include <cstring>
 
 template <typename T>
 using Shared = std::shared_ptr<T>;

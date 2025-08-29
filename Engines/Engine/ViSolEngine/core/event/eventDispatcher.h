@@ -22,7 +22,7 @@ namespace ViSolEngine {
 		void addEventListener(const eventCallback<T>& callback) {
 			VISOL_STATIC_ASSERT(std::is_base_of<EventContext, T>::value && "Add invalid EventContext");
 			EventID eventID = getTypeUUID<T>();
-			CORE_LOG_DEBUG("Create event type: {0} - with ID: {1} ", typeid(T).name(), eventID);
+			//CORE_LOG_DEBUG("Create event type: {0} - with ID: {1} ", typeid(T).name(), eventID);
 			IEventAction* eventAction = new EventAction<T>(callback);
 			mEventActionMap[eventID].emplace_back(eventAction);
 		}

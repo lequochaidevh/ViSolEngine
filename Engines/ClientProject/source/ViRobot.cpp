@@ -11,9 +11,7 @@ public:
 
 	virtual bool onInitClient() override {
 		LOG_INFO("ViRobot is init");
-		mLayer = new UserPlayLayer();
-		// mUI = new UI_Layer();
-		// pushOverlayLayer(mUI);
+		mLayer = new UIplayLayer();
 		pushLayer(mLayer);
 		return true;
 	}
