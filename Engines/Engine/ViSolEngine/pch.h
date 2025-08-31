@@ -65,6 +65,10 @@ using Unique = std::unique_ptr<T>;
 #define VISOL_STATIC_ASSERT static_assert
 #endif
 
+// Static cast
+#define VISOL_BASE_CLASS_ASSERT(baseClass, derivedClass, message) \
+VISOL_STATIC_ASSERT(std::is_base_of<baseClass, derivedClass>::value && message)
+
 // Inline function
 #if defined(__clang__) || defined(_gcc__)
 #define VISOL_FORCE_INLINE __attribute__((always_inline)) inline
@@ -102,4 +106,5 @@ namespace ViSolEngine
         static UUID uuid = getUUID(); // static Func call one time
         return uuid;
     }
+    
 }

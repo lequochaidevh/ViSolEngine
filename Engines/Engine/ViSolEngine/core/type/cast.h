@@ -1,17 +1,14 @@
 #pragma once
 
 #include"pch.h"
-#include"core/type/actor.h"
-#include"core/logger/logger.h"
-#include"core/event/eventContext.h"
-#include"core/memory/memoryManager.h"
-#include"core/type/component.h"
+#include"object.h"
+
 namespace ViSolEngine {
 	template<typename To, typename From>
-	VISOL_FORCE_INLINE To staticCast(From from) { return (To)from; }
+	VISOL_FORCE_INLINE To StaticCast(From from) { return (To)from; }
 
 	template<typename T>
-	T* downCast(Object* obj) {
+	T* DownCast(Object* obj) {
 		if (obj && obj->isDerivedFrom(T::runTimeType)) {
 			return (T*)obj;
 		}
@@ -20,7 +17,7 @@ namespace ViSolEngine {
 	}
 
 	template<typename T>
-	const T* downCast(const Object* obj) {
+	const T* DownCast(const Object* obj) {
 		if (obj && obj->isDerivedFrom(T::runTimeType)) {
 			return (const T*)obj;
 		}

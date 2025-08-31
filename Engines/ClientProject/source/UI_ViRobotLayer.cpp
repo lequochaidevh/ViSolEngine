@@ -1,5 +1,4 @@
-#include"UI_ViRobotLayer.h"
-#include<ViSolEngine/base.h>
+#include "UI_ViRobotLayer.h"
 
 using namespace ViSolEngine;
 
@@ -12,50 +11,29 @@ UIplayLayer::~UIplayLayer() {
 }
 
 void UIplayLayer::onAttach() {
-	LOG_TRACE("UIplayLayer is attached");
-
 	MemoryManager memoryManager;
-
-	Actor* actor = memoryManager.newOnStack<Actor>("ActorManager");
-	Object* obj = actor;
-
-	LOG_TRACE(actor->runTimeType.getTypeName()); // Actor
-	LOG_TRACE(actor->getRunTimeTypeInfo().getTypeName()); // Actor
-
-	LOG_TRACE(obj->runTimeType.getTypeName()); // Object
-	LOG_TRACE(obj->getRunTimeTypeInfo().getTypeName()); // Actor
-
-	LOG_TRACE(actor->isTypeOf(obj->runTimeType)); // false
-	LOG_TRACE(actor->isTypeOf(actor->runTimeType)); // true
-	LOG_TRACE(actor->isDerivedFrom(obj->runTimeType)); // true
-	LOG_TRACE(actor->isExactlyTypeOf(obj)); // true
-	LOG_TRACE(actor->isExactlyDerivedFrom(obj)); // true
-
-	// Casting
 	{
-		int count = 100000;
-		{
-			auto startTime = std::chrono::high_resolution_clock::now();
-			for (int i = 0; i < count; i++) {
-				auto obj = downCast<Object>(actor);
-			}
-			auto endTime = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<double, std::milli> duration = endTime - startTime;
-			LOG_INFO("RTTI takes {0} seconds", duration.count() / 1000.0f);
+		ECS::Coordinator* coordinator = memoryManager.newOnStack<ECS::Coordinator>("Coordinator");
+		Actor* actor = memoryManager.newOnStack<Actor>("Actor", coordinator);
+
+		actor->addComponent<TransformComponent>(2.0f, 3.0f);
+		TransformComponent& transform = actor->getComponent<TransformComponent>();
+		LOG_TRACE("Actor position: ({0}, {1})", transform.getX(), transform.getY());
+
+		transform.setX(10.0f);
+		transform.setY(-20.0f);
+		transform = actor->getComponent<TransformComponent>();
+		LOG_TRACE("Actor position: ({0}, {1})", transform.getX(), transform.getY());
+
+		if (actor->hasComponent<TransformComponent>()) {
+			actor->removeComponent<TransformComponent>();
 		}
 
-		{
-			auto startTime = std::chrono::high_resolution_clock::now();
-			for (int i = 0; i < count; i++) {
-				auto obj = dynamic_cast<Object*>(actor);
-			}
-			auto endTime = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<double, std::milli> duration = endTime - startTime;
-			LOG_INFO("RTTI takes {0} seconds", duration.count() / 1000.0f);
+		if (!actor->hasComponent<TransformComponent>()) {
+			LOG_WARN("Actor transform component has been removed");
 		}
 	}
-
-	memoryManager.freeOnStack(actor);
+	memoryManager.clearOnStack();
 }
 
 void UIplayLayer::onDetach() {

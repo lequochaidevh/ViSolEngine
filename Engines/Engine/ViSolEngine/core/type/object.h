@@ -14,9 +14,4 @@ namespace ViSolEngine {
 		VISOL_FORCE_INLINE bool isExactlyTypeOf(const Object* obj) const { return obj && getRunTimeTypeInfo().isTypeOf(obj->getRunTimeTypeInfo()); }
 		VISOL_FORCE_INLINE bool isExactlyDerivedFrom(const Object* obj) const { return obj && getRunTimeTypeInfo().isDerivedFrom(obj->getRunTimeTypeInfo()); }
 	};
-
-	class VISOL_API Actor : public Object {
-	public:
-		DECLARE_RTTI
-	};
 }
