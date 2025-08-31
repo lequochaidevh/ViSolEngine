@@ -1,7 +1,7 @@
 #pragma once
 
 #include"pch.h"
-#include"core/rtti/object.h"
+#include"core/type/object.h"
 #include"core/logger/logger.h"
 #include"core/event/eventContext.h"
 #include"core/memory/memoryManager.h"

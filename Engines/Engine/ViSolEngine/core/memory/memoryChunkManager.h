@@ -2,7 +2,6 @@
 
 #include"memoryManager.h"
 #include"core/logger/logger.h"
-#include <list>
 /*6*/
 namespace ViSolEngine {
 	template<typename T, std::size_t MAX_OBJECT_PER_CHUNK>
@@ -77,7 +76,7 @@ namespace ViSolEngine {
 					mCurrentChunk++;
 					if (mCurrentChunk != mEndChunk) {
 						VISOL_ASSERT(*mCurrentChunk != nullptr && "Invalid memory chunk");
-						mCurrentObject = (*mCurrentChunk)->getObjects().begin();
+						mCurrentObject = (*mCurrentChunk)->getObjects().begin(); // start at next chunk
 					}
 				}
 				return *this;
@@ -154,6 +153,7 @@ namespace ViSolEngine {
 		}
 
 		VISOL_FORCE_INLINE Iterator begin() { return Iterator(mMemoryChunkList.begin(), mMemoryChunkList.end()); }
+		// declare stop condition
 		VISOL_FORCE_INLINE Iterator end() { return Iterator(mMemoryChunkList.end(), mMemoryChunkList.end()); }
 	private:
 		MemoryChunkList mMemoryChunkList;

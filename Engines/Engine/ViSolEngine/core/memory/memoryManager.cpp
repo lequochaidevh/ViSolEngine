@@ -19,6 +19,10 @@ namespace ViSolEngine {
 	void* MemoryManager::allocatePerFrame(size_t memorySize, uint8_t alignment) {
 		return mPerFrameAllocator.allocate(memorySize, alignment);
 	}
+	/*
+	* Allocate stack;
+	* Save pointer for every coponent in array stackAllocator.
+	*/
 	void* MemoryManager::allocateOnStack(const char* usage, size_t memorySize, uint8_t alignment) {
 		void* address = mStackAllocator.allocate(memorySize, alignment);
 		mActiveMemoryList.push_back({ usage, address });
