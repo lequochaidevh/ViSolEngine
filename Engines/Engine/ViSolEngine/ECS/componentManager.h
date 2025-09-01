@@ -8,7 +8,8 @@
 namespace ViSolEngine {
 	namespace ECS {
 		constexpr size_t MAX_COMPONENT_PER_ARRAY = 500;
-		
+		template<typename T>
+		using MemChunkManagerAlias = MemoryChunkManager<T, MAX_COMPONENT_PER_ARRAY>;
 		class ComponentManager {
 			
 			class IComponentArray {
@@ -23,18 +24,21 @@ namespace ViSolEngine {
 		public:
 			template<typename T>
 			class ComponentArray : \
-            public MemoryChunkManager<T, MAX_COMPONENT_PER_ARRAY>, \
+            public MemChunkManagerAlias<T>, \
             public IComponentArray {
+			using MemChunkManagerAlias<T>::newObject;
+			using MemChunkManagerAlias<T>::freeObject;
+
 			public:
 				ComponentArray() = default;
 				ComponentArray(const char* resourceName)  \
-                : MemoryChunkManager<T, MAX_COMPONENT_PER_ARRAY>(resourceName) {} // MemoryChunkManger set default config
+                : MemChunkManagerAlias<T>(resourceName) {} // MemoryChunkManger set default config
 				~ComponentArray() = default;
 
 				template<typename... Args>
 				T& addComponent(EntityID id, Args&&... args) {
 					VISOL_BASE_CLASS_ASSERT(IComponent, T, "Add invalid component");
-					T* component = this->newObject(std::forward<Args>(args)...);
+					T* component = newObject(std::forward<Args>(args)...);
 					component->setOwner(id);
 					component->setID(getUUID());
 					
@@ -59,7 +63,7 @@ namespace ViSolEngine {
 					VISOL_BASE_CLASS_ASSERT(IComponent, T, "Remove invalid component");
 					VISOL_ASSERT(hasComponent(id) && "Remove non-existing component");
 					
-					this->freeObject(mComponentsMap.at(id));
+					freeObject(mComponentsMap.at(id));
 					mComponentsMap.erase(id);
 				}
 			private:
