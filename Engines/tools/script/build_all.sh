@@ -17,8 +17,8 @@ cd "$CMAKE_ROOT_DIR" || {
 # cmake --build out/build/linux-debug
 # cmake --install out/build/linux-debug
 
-mkdir -p ./tmp/ViSolEngineInstall
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX="./tmp/ViSolEngineInstall"
+mkdir -p ../tmp/ViSolEngineInstall
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX="../tmp/ViSolEngineInstall"
 cmake --build build
 cmake --install build
 

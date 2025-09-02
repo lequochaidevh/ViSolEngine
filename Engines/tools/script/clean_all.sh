@@ -17,7 +17,7 @@ cd "$CMAKE_ROOT_DIR" || {
 
 # Delete CMake cache & files
 delete_if_exist "build"
-delete_if_exist "tmp"
+delete_if_exist "../tmp"
 delete_if_exist "CMakeCache.txt"
 delete_if_exist "CMakeFiles"
 delete_if_exist "cmake_install.cmake"
