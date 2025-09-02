@@ -9,7 +9,8 @@
 #include "core/input/inputState.h"
 #include "core/layer/layerStack.h"
 #include "core/time/time.h"
-#include "core/memory/memoryAllocator.h"
+#include "memory/memoryAllocator.h"
+
 namespace ViSolEngine
 {
 	struct VISOL_API ApplicationConfiguration

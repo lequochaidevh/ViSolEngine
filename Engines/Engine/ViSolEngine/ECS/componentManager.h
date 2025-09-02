@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include"IComponent.h"
-#include"core/type/cast.h"
-#include"core/memory/memoryChunkManager.h"
+#include "IComponent.h"
+#include "core/type/cast.h"
+#include "memory/memoryChunkManager.h"
 
 namespace ViSolEngine {
 	namespace ECS {

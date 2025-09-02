@@ -1,7 +1,8 @@
 #pragma once
 
-#include"memoryManager.h"
-#include"core/logger/logger.h"
+#include "memoryManager.h"
+#include "core/logger/logger.h"
+
 /*6*/
 namespace ViSolEngine {
 	template<typename T, std::size_t MAX_OBJECT_PER_CHUNK>

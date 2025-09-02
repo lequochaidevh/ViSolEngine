@@ -4,7 +4,7 @@
 #include"core/type/actor.h"
 #include"core/logger/logger.h"
 #include"core/event/eventContext.h"
-#include"core/memory/memoryManager.h"
+#include"memory/memoryManager.h"
 #include"core/type/component.h"
 namespace ViSolEngine {
 	template<typename To, typename From>
