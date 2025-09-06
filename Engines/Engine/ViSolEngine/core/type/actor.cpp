@@ -3,8 +3,8 @@
 namespace ViSolEngine {
 	DEFINE_RTTI(Actor, &Object::runTimeType)
 	
-	Actor::Actor(ECS::Coordinator* coordinator) : mID(INVALID_ID), mCoordinator(coordinator) {
-
+	Actor::Actor(ECS::Coordinator* coordinator) : mCoordinator(coordinator) {
+		mID = mCoordinator->addEntity();
 	};
 	
 	Actor::Actor(ECS::EntityID id, ECS::Coordinator* coordinator) : mID(id), mCoordinator(coordinator) {
@@ -12,6 +12,6 @@ namespace ViSolEngine {
 	};
 
 	Actor::~Actor() {
-		mCoordinator->releaseForReuseEntity(mID);
+		// mCoordinator->releaseForReuseEntity(mID);
 	};
 }

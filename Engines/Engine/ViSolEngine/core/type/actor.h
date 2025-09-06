@@ -15,7 +15,7 @@ namespace ViSolEngine {
 
 		template<typename T, typename... Args>
 		VISOL_FORCE_INLINE T& addComponent(Args&&... args) \
-		{ return mCoordinator->addComponent<T>(mID, std::forward<Args>(args)...); }
+		{ return mCoordinator->addComponent<T>(mID, mCoordinator, std::forward<Args>(args)...); }
 		
 		template<typename T>
 		VISOL_FORCE_INLINE T& getComponent() { return mCoordinator->getComponent<T>(mID); }
@@ -25,6 +25,8 @@ namespace ViSolEngine {
 		
 		template<typename T>
 		VISOL_FORCE_INLINE void removeComponent() { mCoordinator->removeComponent<T>(mID); }
+
+		VISOL_FORCE_INLINE ECS::EntityID getID() const { return mID; }
 
 	private:
 		ECS::EntityID mID;

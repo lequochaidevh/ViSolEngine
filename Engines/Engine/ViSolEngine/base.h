@@ -6,6 +6,8 @@
 #include"core/event/eventContext.h"
 #include"memory/memoryManager.h"
 #include"core/type/component.h"
+#include"core/system/system.h"
+#include"ECS/systemManager.h"
 namespace ViSolEngine {
 	template<typename To, typename From>
 	VISOL_FORCE_INLINE To staticCast(From from) { return (To)from; }

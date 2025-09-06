@@ -1,0 +1,62 @@
+// Component
+// ISystem.h
+class ISystem {
+	virtual void onInit();
+	virtual void onUpdate();
+	virtual void onShutdown();
+};
+template<typename T>
+class System : public ISystem {
+	public:
+		// 1. init,update,shutdown 
+		//		+ (child class will declare)
+		// 2. get,set,getInterval,setInterval
+		// 3. get, set ID
+		
+// system.h
+class CollisionResolver : public System
+class Animation : public System
+class Render2D : public System
+// system.cpp -> declare RTTI
+
+// systemManager.h
+class SystemManager : public MemoryManager {
+	// 1. mDependenciesMatrix : vector<vector<bool>>
+	//		+ (collum depend on row)
+	// 2. mSystemMap <SystemTypeID, ISystem*>
+	// 3. class Codinator
+	// 4. mRebuildSystemDependency = true
+	vector<ISystem*> mSortedOrderSystem;
+	vector<ISystem*> mUnSortedOrderSystem;
+	bool addSystem() {
+		ISystem* system = newOnStack<T>(T::runTimeType.getTypeName(), std::forward<Args>(args)...);
+	...
+	}
+	onInit(); // allocator for
+	onUpdate(); // 
+	onShutdown();
+	void addDependency(first, second);
+	void addDependency(first, arg ...);
+	class Codinator;
+	
+	
+}
+
+// systemManager.cpp
+system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

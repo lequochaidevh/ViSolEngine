@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "entityManager.h"
 #include "componentManager.h"
-
+#include "systemManager.h"
 namespace ViSolEngine {
 	namespace ECS {
 		class Coordinator {
@@ -16,8 +16,8 @@ namespace ViSolEngine {
             { return mComponentManager.getComponentArray<T>(); }
 			
 			template<typename T, typename... Args>
-			VISOL_FORCE_INLINE T& addComponent(EntityID id, Args&&... args) \
-            { return mComponentManager.addComponent<T>(id, std::forward<Args>(args)...); }
+			VISOL_FORCE_INLINE T& addComponent(EntityID id, Coordinator* coordinator, Args&&... args) \
+            { return mComponentManager.addComponent<T>(id, coordinator, std::forward<Args>(args)...); }
 			
 			template<typename T>
 			VISOL_FORCE_INLINE T& getComponent(EntityID id) \
@@ -39,6 +39,7 @@ namespace ViSolEngine {
 		private:
 			EntityManager mEntityManager;
 			ComponentManager mComponentManager;
+			SystemManager mSystemManager;
 		};
 	} // namespace ECS
 } // namespace ViSolEngine

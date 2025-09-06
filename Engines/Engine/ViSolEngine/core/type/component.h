@@ -1,10 +1,11 @@
 #pragma once
 
-#include"object.h"
-#include"ECS/IComponent.h"
+#include "object.h"
+#include "actor.h"
+#include "ECS/IComponent.h"
 
 namespace ViSolEngine {
-	class TransformComponent : public ECS::Component<TransformComponent> {
+	class TransformComponent : public ECS::Component<TransformComponent, Actor> {
 	public:
 		DECLARE_RTTI
 	public:
@@ -20,5 +21,5 @@ namespace ViSolEngine {
 		float mX, mY;
 	};
 
-	//DEFINE_RTTI_NO_PARENT(TransformComponent)
+	// DEFINE_RTTI_NO_PARENT(TransformComponent) // Linux platform will impl in cpp
 }

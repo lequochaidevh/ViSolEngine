@@ -36,12 +36,13 @@ namespace ViSolEngine {
 				~ComponentArray() = default;
 
 				template<typename... Args>
-				T& addComponent(EntityID id, Args&&... args) {
+				T& addComponent(EntityID id, class Coordinator* coordinator, Args&&... args) {
 					VISOL_BASE_CLASS_ASSERT(IComponent, T, "Add invalid component");
 					T* component = newObject(std::forward<Args>(args)...);
-					component->setOwner(id);
+					component->setOwnerID(id);
 					component->setID(getUUID());
-					
+					component->setCoordinator(coordinator);
+
 					mComponentsMap[id] = component;
 
 					return *component;
@@ -90,7 +91,7 @@ namespace ViSolEngine {
 			}
 
 			template<typename T, typename... Args>
-			T& addComponent(EntityID id, Args&&... args) {
+			T& addComponent(EntityID id, class Coordinator* coordinator, Args&&... args) {
 				ComponentTypeID typeID = T::getStaticTypeID();
 
 				if (!mComponentTypeMap.count(typeID)) {
@@ -100,7 +101,7 @@ namespace ViSolEngine {
                 // IComponent* not have addComponent. Because not need id of component type, need use StaticCast
                 // addComponent is a method of child class (ComponentArray) of IComponentArray
                 // ComponentManager:addComponent -> ComponentArray:addComponent -> MemoryChunkManager(Pool)
-				return StaticCast<ComponentArray<T>*>(mComponentTypeMap.at(typeID))->addComponent(id, std::forward<Args>(args)...);
+				return StaticCast<ComponentArray<T>*>(mComponentTypeMap.at(typeID))->addComponent(id, coordinator, std::forward<Args>(args)...);
 			}
 
 			template<typename T>

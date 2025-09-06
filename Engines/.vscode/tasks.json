@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake Configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S", ".",
+        "-B", "build",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_INSTALL_PREFIX=../tmp/ViSolEngineInstall"
+      ],
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "CMake Compile",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build", "build"
+      ],
+      "dependsOn": ["CMake Configure"],
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Build only",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "--",
+        "${workspaceFolder}/tools/script/build_all.sh"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Clean and Build script",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "--",
+        "${workspaceFolder}/tools/script/clean_and_build.sh"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
