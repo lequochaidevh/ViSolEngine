@@ -66,6 +66,9 @@
     //     "CMAKE_INSTALL_PREFIX": "../tmp/ViSolEngineInstall"
     // },
     "cSpell.words": [
+        "GLFW",
+        "Opengl",
+        "swapbuffers",
         "VISOL"
     ]
 }

@@ -12,7 +12,7 @@ class System : public ISystem {
 		//		+ (child class will declare)
 		// 2. get,set,getInterval,setInterval
 		// 3. get, set ID
-		
+}
 // system.h
 class CollisionResolver : public System
 class Animation : public System
@@ -52,7 +52,12 @@ system
 
 
 
-
+// Require:
+/*
+- Group component with priority 
+- Sorted 
+- 
+*/
 
 
 

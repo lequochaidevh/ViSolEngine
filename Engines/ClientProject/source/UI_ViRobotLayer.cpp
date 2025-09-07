@@ -11,9 +11,9 @@ UIplayLayer::~UIplayLayer() {
 }
 
 void UIplayLayer::onAttach() {
-	ViSolEngine::MemoryManager memoryManager;
+	ViSolEngine::MemoryManager* memoryManager = new ViSolEngine::MemoryManager();
 	{
-		auto systemManager = memoryManager.newOnStack<ViSolEngine::ECS::SystemManager>("SystemManager");
+		auto systemManager = memoryManager->newOnStack<ViSolEngine::ECS::SystemManager>("SystemManager");
 
 		auto& collisionSystem = systemManager->addSystem<ViSolEngine::CollisionResolver>();
 		auto& animationSystem = systemManager->addSystem<ViSolEngine::AnimationSystem>();
@@ -25,11 +25,13 @@ void UIplayLayer::onAttach() {
 		systemManager->onInit();
 		systemManager->onUpdate(ViSolEngine::Time(0.0f));
 		systemManager->onShutdown();
+
+		memoryManager->freeOnStack(systemManager);
 	}
 
 	{
-		ViSolEngine::ECS::Coordinator* coordinator = memoryManager.newOnStack<ViSolEngine::ECS::Coordinator>("Coordinator");
-		ViSolEngine::Actor* actor = memoryManager.newOnStack<ViSolEngine::Actor>(ViSolEngine::Actor::runTimeType.getTypeName(), coordinator);
+		ViSolEngine::ECS::Coordinator* coordinator = memoryManager->newOnStack<ViSolEngine::ECS::Coordinator>("Coordinator");
+		ViSolEngine::Actor* actor = memoryManager->newOnStack<ViSolEngine::Actor>(ViSolEngine::Actor::runTimeType.getTypeName(), coordinator);
 
 		actor->addComponent<ViSolEngine::TransformComponent>(2.0f, 3.0f);
 		ViSolEngine::TransformComponent& transform = actor->getComponent<ViSolEngine::TransformComponent>();
@@ -48,8 +50,12 @@ void UIplayLayer::onAttach() {
 		if (!actor->hasComponent<ViSolEngine::TransformComponent>()) {
 			LOG_WARN("Actor transform component has been removed");
 		}
+
+		memoryManager->freeOnStack(actor);
+		memoryManager->freeOnStack(coordinator);
+		coordinator->~Coordinator(); // avoid deleting scalar destructor by delete<key>
 	}
-	memoryManager.clearOnStack();
+	memoryManager->clearOnStack();
 }
 
 void UIplayLayer::onDetach() {

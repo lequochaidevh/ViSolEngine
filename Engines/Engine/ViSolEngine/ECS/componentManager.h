@@ -7,7 +7,7 @@
 
 namespace ViSolEngine {
 	namespace ECS {
-		constexpr size_t MAX_COMPONENT_PER_ARRAY = 500;
+		constexpr size_t MAX_COMPONENT_PER_ARRAY = 500; // 500 component in 1 chunk
 		template<typename T>
 		using MemChunkManagerAlias = MemoryChunkManager<T, MAX_COMPONENT_PER_ARRAY>;
 		class ComponentManager {
@@ -28,12 +28,15 @@ namespace ViSolEngine {
             public IComponentArray {
 			using MemChunkManagerAlias<T>::newObject;
 			using MemChunkManagerAlias<T>::freeObject;
+			using MemChunkManagerAlias<T>::shutdown;
 
 			public:
 				ComponentArray() = default;
 				ComponentArray(const char* resourceName)  \
                 : MemChunkManagerAlias<T>(resourceName) {} // MemoryChunkManger set default config
-				~ComponentArray() = default;
+				~ComponentArray() {
+					shutdown();
+				};
 
 				template<typename... Args>
 				T& addComponent(EntityID id, class Coordinator* coordinator, Args&&... args) {

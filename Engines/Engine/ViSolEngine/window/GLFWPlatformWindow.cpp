@@ -8,7 +8,7 @@
 #include<GLFW/glfw3.h>
 namespace ViSolEngine {
 	GLFWPlatformWindow::GLFWPlatformWindow() : mWindow(nullptr) , mData() {
-		CORE_LOG_INFO("Call constructure GLFW");
+		CORE_LOG_INFO("Call constructor GLFW");
 	}
 	GLFWPlatformWindow::~GLFWPlatformWindow() {
 		/*Free keyboard and mouse input (mData)*/

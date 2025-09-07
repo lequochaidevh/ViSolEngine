@@ -4,6 +4,7 @@
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include "memory/memoryMonitor.h"
 
 /*Define General function for iterator - rbegin to rend at class have vector*/
 #define DISPATCH_LAYER_EVENT(eventType, eventContext) \
@@ -58,6 +59,9 @@ namespace ViSolEngine
 			static float lastFrameTime = 0.0f;
 			// 
 			while (mNativeWindow->getRealTime() - lastFrameTime < minDeltaTime) {} // holding time
+
+			MemoryMonitor::get().update(); // Singleton
+
 			float currentFrameTime = mNativeWindow->getRealTime();
 			mTime = Time(currentFrameTime - lastFrameTime); // explicit
 			lastFrameTime = currentFrameTime;
@@ -97,6 +101,8 @@ namespace ViSolEngine
 
     void Application::shutdown() {
 		mNativeWindow->shutdown();
+		MemoryMonitor::get().clear();
+		MemoryMonitor::get().detectMemoryLeaks();
 	}
 
 	/*Add and Browse rend to rbegin class, this have vector*/

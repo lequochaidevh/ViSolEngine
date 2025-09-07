@@ -1,6 +1,7 @@
 #include "systemManager.h"
 #include "ECS/coordinator.h"
 #include "core/time/time.h"
+#include"memory/memoryMonitor.h"
 
 namespace ViSolEngine {
 	namespace ECS {
@@ -52,10 +53,11 @@ namespace ViSolEngine {
 		}
 
 		void SystemManager::onShutdown() {
-			for (auto iter = mSortedOrderSystems.rbegin(); iter != mSortedOrderSystems.rend(); iter++) {
+			for (auto iter = mUnsortedOrderSystems.rbegin(); iter != mUnsortedOrderSystems.rend(); iter++) {
 				(*iter)->onShutdown();
+				freeOnStack(*iter);
 			}
-			clearOnStack();
+			MemoryMonitor::get().remove(this);
 		}
 
 		void SystemManager::buildSystemWorkOrder() {

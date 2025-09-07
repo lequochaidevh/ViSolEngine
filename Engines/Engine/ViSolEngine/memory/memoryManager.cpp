@@ -1,11 +1,13 @@
 #include"memoryManager.h"
 #include"core/logger/logger.h"
+#include"memoryMonitor.h"
 
 namespace ViSolEngine {
 	MemoryManager::MemoryManager(const MemoryConfiguration& config) : mConfig(config),
 		mPerFrameAllocator(config.perFrameBufferSize, malloc(config.perFrameBufferSize)),
 		mStackAllocator(config.stackBufferSize, malloc(config.stackBufferSize))
 	{
+		MemoryMonitor::get().add(this);
 	}
 	MemoryManager::~MemoryManager() {
 	}
@@ -21,7 +23,7 @@ namespace ViSolEngine {
 	}
 	/*
 	* Allocate stack;
-	* Save pointer for every coponent in array stackAllocator.
+	* Save pointer for every component in array stackAllocator.
 	*/
 	void* MemoryManager::allocateOnStack(const char* usage, size_t memorySize, uint8_t alignment) {
 		void* address = mStackAllocator.allocate(memorySize, alignment);
@@ -29,14 +31,14 @@ namespace ViSolEngine {
 		return address;
 	}
 	void MemoryManager::freeOnStack(void* memory) {
-		if (!mActiveMemoryList.empty() && memory == mActiveMemoryList.back().resouceAddress) {
+		if (!mActiveMemoryList.empty() && memory == mActiveMemoryList.back().resourceAddress) {
 			mStackAllocator.free(memory);
 			mActiveMemoryList.pop_back();
 			bool remainMemory = true;
 			while (remainMemory) {
 				remainMemory = false;
 				for (auto iter = mFreedMemoryList.begin(); iter != mFreedMemoryList.end(); ++iter) {
-					if (*iter == mActiveMemoryList.back().resouceAddress) {
+					if (*iter == mActiveMemoryList.back().resourceAddress) {
 						mStackAllocator.free(*iter);
 						mActiveMemoryList.pop_back();
 						mFreedMemoryList.erase(iter);
@@ -57,17 +59,17 @@ namespace ViSolEngine {
 	void MemoryManager::detectMemoryLeaks() {
 		VISOL_ASSERT(!(mFreedMemoryList.size() && mActiveMemoryList.size() == 0) && "Implementation failure!");
 		if (mActiveMemoryList.size()) {
-			CORE_LOG_WARN("!!!  M E M O R Y  L E A K  D E T E C T E D  !!!");
+			CORE_LOG_ERROR("!!!  M E M O R Y  L E A K  D E T E C T E D  !!!");
 			for (auto& pendingMemory : mActiveMemoryList) {
 				bool isFreed = false;
 				for (auto freedMemory : mFreedMemoryList) {
-					if (freedMemory == pendingMemory.resouceAddress) {
+					if (freedMemory == pendingMemory.resourceAddress) {
 						isFreed = true;
 						break;
 					}
 				}
 				if (isFreed == false) {
-					CORE_LOG_WARN("{0} memory user did not release allocated memory {1}!", pendingMemory.resouceName, pendingMemory.resouceAddress);
+					CORE_LOG_ERROR("{0} memory user did not release allocated memory {1}!", pendingMemory.resourceName, pendingMemory.resourceAddress);
 				}
 			}
 		}

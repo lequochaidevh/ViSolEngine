@@ -2,6 +2,7 @@
 
 #include "memoryManager.h"
 #include "core/logger/logger.h"
+#include"memory/memoryMonitor.h"
 
 /*6*/
 namespace ViSolEngine {
@@ -9,8 +10,8 @@ namespace ViSolEngine {
 	class MemoryChunkManager : public MemoryManager { // be Stack (onStack) or Linear (PerFrame) Allocator
 		static constexpr size_t MEMORY_CHUNK_MAX_SIZE = sizeof(T) * MAX_OBJECT_PER_CHUNK;
 		using ObjectList = std::list<T*>;
-
-        // **Poolallocator** to manage 1 chunk;
+		// StackAllocator manage all chunk
+        // **Poolallocator** to manage into 1 chunk;
 		class MemoryChunk {
 		public:
 			MemoryChunk(PoolAllocator* allocator) : mAllocator(allocator) {
@@ -71,6 +72,7 @@ namespace ViSolEngine {
 					mCurrentObject = (*std::prev(mEndChunk))->getObjects().end();
 				}
 			}
+
 			Iterator& operator++() {
 				mCurrentObject++;
 				if (mCurrentObject == (*mCurrentChunk)->getObjects().end()) {
@@ -82,8 +84,10 @@ namespace ViSolEngine {
 				}
 				return *this;
 			}
+
 			VISOL_FORCE_INLINE T* operator*() const { return *mCurrentObject; }
 			VISOL_FORCE_INLINE T* operator->() const { return *mCurrentObject; }
+			
 			bool operator==(const Iterator& other) const {
 				return mCurrentChunk == other.mCurrentChunk && mCurrentObject == other.mCurrentObject;
 			}
@@ -153,6 +157,11 @@ namespace ViSolEngine {
 				VISOL_FREE_MEMORY(*iter);
 			}
 			mMemoryChunkList.clear();
+			MemoryMonitor::get().remove(this);
+		}
+
+		void shutdown() {
+			reset();
 		}
 
 		VISOL_FORCE_INLINE Iterator begin() { return Iterator(mMemoryChunkList.begin(), mMemoryChunkList.end()); }

@@ -11,8 +11,8 @@ namespace ViSolEngine {
 	};
 
 	struct MemoryUsage { 
-		const char* resouceName;
-		void* resouceAddress;
+		const char* resourceName;
+		void* resourceAddress;
 	};
 
     // Not parser API for user. It belong Engine
