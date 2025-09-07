@@ -12,22 +12,7 @@ UIplayLayer::~UIplayLayer() {
 
 void UIplayLayer::onAttach() {
 	ViSolEngine::MemoryManager* memoryManager = new ViSolEngine::MemoryManager();
-	{
-		auto systemManager = memoryManager->newOnStack<ViSolEngine::ECS::SystemManager>("SystemManager");
-
-		auto& collisionSystem = systemManager->addSystem<ViSolEngine::CollisionResolver>();
-		auto& animationSystem = systemManager->addSystem<ViSolEngine::AnimationSystem>();
-		auto& renderer2D = systemManager->addSystem<ViSolEngine::Renderer2D>();
-
-		systemManager->addSystemDependency(&animationSystem, &collisionSystem);
-		systemManager->addSystemDependency(&renderer2D, &collisionSystem, &animationSystem);
-
-		systemManager->onInit();
-		systemManager->onUpdate(ViSolEngine::Time(0.0f));
-		systemManager->onShutdown();
-
-		memoryManager->freeOnStack(systemManager);
-	}
+	// Move init memory allocator of component to Engine -> Application::init
 
 	{
 		ViSolEngine::ECS::Coordinator* coordinator = memoryManager->newOnStack<ViSolEngine::ECS::Coordinator>("Coordinator");

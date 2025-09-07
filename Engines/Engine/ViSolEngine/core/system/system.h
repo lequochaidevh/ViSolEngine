@@ -40,7 +40,7 @@ namespace ViSolEngine {
 		}
 
 		virtual void onUpdate(Time time) override {
-			CORE_LOG_INFO("AnimationSystem update!");
+			// CORE_LOG_INFO("AnimationSystem update!");
 		}
 
 		virtual void onShutdown() override {
@@ -61,7 +61,7 @@ namespace ViSolEngine {
 		}
 
 		virtual void onUpdate(Time time) override {
-			CORE_LOG_INFO("Renderer2D update!");
+			// CORE_LOG_INFO("Renderer2D update!");
 		}
 
 		virtual void onShutdown() override {

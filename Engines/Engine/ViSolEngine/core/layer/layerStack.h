@@ -1,12 +1,13 @@
 
 #pragma once
 #include"layer.h"
+#include"core/type/RTTI.h"
 
-/*3 Delare LayerStack*/
 namespace ViSolEngine {
 	using LayerList = std::vector<Layer*>;
 	class VISOL_API LayerStack {
-		/*8 Create METHOD help for iterator -> rend to rbegin into class have vector*/
+	public:
+		DECLARE_RTTI
 		class VISOL_API ReversedIterator {
 		public:
 			ReversedIterator() = default;

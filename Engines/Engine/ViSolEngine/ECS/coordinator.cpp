@@ -2,6 +2,8 @@
 
 namespace ViSolEngine {
 	namespace ECS {
+		DEFINE_RTTI_NO_PARENT(Coordinator)
+
 		Coordinator::Coordinator() : mEntityManager(), mComponentManager(), mSystemManager(this) {
 
 		}

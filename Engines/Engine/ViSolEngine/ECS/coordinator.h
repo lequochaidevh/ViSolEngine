@@ -4,9 +4,12 @@
 #include "entityManager.h"
 #include "componentManager.h"
 #include "systemManager.h"
+#include "core/type/RTTI.h"
 namespace ViSolEngine {
 	namespace ECS {
 		class Coordinator {
+		public:
+			DECLARE_RTTI
 		public:
 			Coordinator();
 			~Coordinator();

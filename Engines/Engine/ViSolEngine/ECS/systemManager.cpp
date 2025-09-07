@@ -5,6 +5,8 @@
 
 namespace ViSolEngine {
 	namespace ECS {
+		DEFINE_RTTI_NO_PARENT(SystemManager)
+
 		SystemManager::SystemManager() : \
             MemoryManager(), mSystemIdx(0), mRebuildSystemWorkOrder(false) {
 
@@ -17,6 +19,7 @@ namespace ViSolEngine {
 		SystemManager::~SystemManager() {
 
 		}
+
         // Manage all component init process
 		void SystemManager::onInit() {
 			if (mRebuildSystemWorkOrder) {

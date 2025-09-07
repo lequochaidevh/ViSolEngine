@@ -3,6 +3,8 @@
 /*4 Define func in LayerStack*/
 
 namespace ViSolEngine {
+	DEFINE_RTTI_NO_PARENT(LayerStack)
+
 	LayerStack::LayerStack() : mIndex(0), mLayers() {
         CORE_LOG_TRACE("Create layer stack");
 	}

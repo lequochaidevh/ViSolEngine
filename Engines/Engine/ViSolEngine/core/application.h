@@ -13,10 +13,15 @@
 
 namespace ViSolEngine
 {
+	namespace ECS
+	{
+		class SystemManager;
+		class Coordinator;
+	}
 	struct VISOL_API ApplicationConfiguration
 	{
 		uint16_t width, height;
-		const char* title;
+		const char *title;
 		EWindowPlatformSpec eWindowSpec;
 		int32_t maxFPS;
 		bool runState;
@@ -61,8 +66,9 @@ namespace ViSolEngine
 		class InputState *mInputState;
 
 	private:
-		Unique<LayerStack> mLayerStack;
-
+		LayerStack* mLayerStack;
+		ECS::SystemManager* mSystemManager;
+		ECS::Coordinator* mCoordinator;
 	private:
 		Time mTime;
 	};

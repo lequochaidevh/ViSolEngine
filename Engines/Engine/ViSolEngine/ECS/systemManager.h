@@ -4,10 +4,15 @@
 #include "memory/memoryManager.h"
 #include "core/logger/logger.h"
 
+#include"core/type/RTTI.h"
+#include"core/type/cast.h"
+
 namespace ViSolEngine {
 	namespace ECS {
 		class SystemManager : public MemoryManager {
 			using DependenciesMatrix = std::vector<std::vector<bool>>;
+		public:
+			DECLARE_RTTI
 
 		public:
 			SystemManager();

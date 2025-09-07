@@ -6,6 +6,11 @@
 #include <GLFW/glfw3.h>
 #include "memory/memoryMonitor.h"
 
+#include "globalMemory.h"
+#include "ECS/systemManager.h"
+#include "ECS/coordinator.h"
+#include "core/system/system.h"
+
 /*Define General function for iterator - rbegin to rend at class have vector*/
 #define DISPATCH_LAYER_EVENT(eventType, eventContext) \
 for (auto iter = mLayerStack->rbegin(); iter != mLayerStack->rend(); ++iter) {\
@@ -20,8 +25,9 @@ namespace ViSolEngine
         mConfig(config) , mEventDispatcher()
     {
         mNativeWindow.reset(WindowPlatform::create(config.eWindowSpec));
-		/*Layer{7} Add and Allocate Heap mLayerStack*/
-		mLayerStack.reset(new LayerStack());
+		mLayerStack = GlobalMemoryUsage::get().newOnStack<LayerStack>(LayerStack::runTimeType.getTypeName());
+		mSystemManager = GlobalMemoryUsage::get().newOnStack<ECS::SystemManager>(ECS::SystemManager::runTimeType.getTypeName());
+		mCoordinator = GlobalMemoryUsage::get().newOnStack<ECS::Coordinator>(ECS::Coordinator::runTimeType.getTypeName());
     }
 
     bool Application::init() {
@@ -43,6 +49,16 @@ namespace ViSolEngine
 		mEventDispatcher.addEventListener<MouseButtonHeldEvent>(BIND_EVENT_FUNCTION(onMouseButtonHeldEvent));
 		mEventDispatcher.addEventListener<MouseButtonReleasedEvent>(BIND_EVENT_FUNCTION(onMouseButtonReleasedEvent));
 
+		auto& collisionSystem = mSystemManager->addSystem<CollisionResolver>();
+		auto& animationSystem = mSystemManager->addSystem<AnimationSystem>();
+		auto& renderer2D = mSystemManager->addSystem<Renderer2D>();
+
+		mSystemManager->addSystemDependency(&animationSystem, &collisionSystem);
+		mSystemManager->addSystemDependency(&renderer2D, &collisionSystem, &animationSystem);
+
+		collisionSystem.setUpdateInterval(5.0f);
+
+		mSystemManager->onInit();
 		return true;
 	}
 
@@ -68,27 +84,29 @@ namespace ViSolEngine
 			
 			mNativeWindow->pollsEvent();
 			
-			for (auto layer : *mLayerStack.get()) {
+			for (auto layer : *mLayerStack) {
 				layer->onProcessInput(*mInputState);
 			}
 			
 			while (mTime.getDeltaTime() > MAX_DELTA_TIME) {
-				for (auto layer : *mLayerStack.get()) {
+				for (auto layer : *mLayerStack) {
 					layer->onUpdate(Time(MAX_DELTA_TIME));
 				}
 				mNativeWindow->swapbuffers();
-				for (auto layer : *mLayerStack.get()) {
-					layer->onRender();
-				}
+
+				mSystemManager->onUpdate(Time(MAX_DELTA_TIME)); // Refactor
+
 				mTime -= Time(MAX_DELTA_TIME);
 			}
 				
 			
-			for (auto layer : *mLayerStack.get()) {
+			for (auto layer : *mLayerStack) {
 				layer->onUpdate(mTime);
 			}
-			
-			for (auto layer : *mLayerStack.get()) {
+
+			mSystemManager->onUpdate(Time(MAX_DELTA_TIME));
+
+			for (auto layer : *mLayerStack) {
 				layer->onRender();
 			}
 
@@ -100,6 +118,9 @@ namespace ViSolEngine
     }
 
     void Application::shutdown() {
+		//GlobalMemoryUsage::Get().FreeOnStack(mLayerStack);
+		mSystemManager->onShutdown();
+
 		mNativeWindow->shutdown();
 		MemoryMonitor::get().clear();
 		MemoryMonitor::get().detectMemoryLeaks();
