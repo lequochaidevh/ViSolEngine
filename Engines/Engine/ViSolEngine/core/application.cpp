@@ -107,7 +107,7 @@ namespace ViSolEngine
 			mSystemManager->onUpdate(Time(MAX_DELTA_TIME));
 
 			for (auto layer : *mLayerStack) {
-				layer->onRender();
+				layer->onGUIRender();
 			}
 
 			mNativeWindow->swapbuffers();
@@ -118,7 +118,7 @@ namespace ViSolEngine
     }
 
     void Application::shutdown() {
-		//GlobalMemoryUsage::Get().FreeOnStack(mLayerStack);
+		//GlobalMemoryUsage::get().freeOnStack(mLayerStack);
 		mSystemManager->onShutdown();
 
 		mNativeWindow->shutdown();

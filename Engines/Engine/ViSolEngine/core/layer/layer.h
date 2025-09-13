@@ -18,7 +18,7 @@ namespace ViSolEngine {
 		virtual void onDetach() {}
 		virtual void onProcessInput(const struct InputState&) {}
 		virtual void onUpdate(Time deltaTime) {}
-		virtual void onRender() {}
+		virtual void onGUIRender() {}
 
 		/* 2 Reference Application Action: Event > Application > Layer */
 		virtual bool onWindowResizedEvent(const WindowResizedEvent&) { return false; }

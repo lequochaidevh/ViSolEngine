@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <pch.h>
 #include "spdlog/spdlog.h"
 #include "logger/logger.h"
@@ -10,6 +9,7 @@
 #include "core/layer/layerStack.h"
 #include "core/time/time.h"
 #include "memory/memoryAllocator.h"
+#include "renderer/rendererAPI.h"
 
 namespace ViSolEngine
 {
@@ -24,7 +24,8 @@ namespace ViSolEngine
 		const char *title;
 		EWindowPlatformSpec eWindowSpec;
 		int32_t maxFPS;
-		bool runState;
+		bool runState; // is_runstate
+		ERendererSpec RendererSpec;
 	};
 	class VISOL_API Application
 	{
@@ -69,6 +70,8 @@ namespace ViSolEngine
 		LayerStack* mLayerStack;
 		ECS::SystemManager* mSystemManager;
 		ECS::Coordinator* mCoordinator;
+	private:
+		class Renderer* mRenderer;
 	private:
 		Time mTime;
 	};
