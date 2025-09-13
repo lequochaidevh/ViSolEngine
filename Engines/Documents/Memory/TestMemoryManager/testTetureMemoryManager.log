@@ -1,0 +1,180 @@
+Reading symbols from build/bin/ViRobot...
+(gdb) b UI_ViRobotLayer.h:73
+Breakpoint 1 at 0x22d44: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 73.
+(gdb) b UI_ViRobotLayer.h:78
+Breakpoint 2 at 0x22d99: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 78.
+(gdb) b UI_ViRobotLayer.h:79
+Breakpoint 3 at 0x22dc3: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 79.
+(gdb) b UI_ViRobotLayer.h:81
+Breakpoint 4 at 0x22ded: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 81.
+(gdb) b UI_ViRobotLayer.h:82
+Breakpoint 5 at 0x22e00: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 82.
+(gdb) b UI_ViRobotLayer.h:84
+Breakpoint 6 at 0x22e13: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 84.
+(gdb) b UI_ViRobotLayer.h:85
+Breakpoint 7 at 0x22e26: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 85.
+(gdb) b UI_ViRobotLayer.h:87
+Breakpoint 8 at 0x22e32: file /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h, line 87.
+(gdb) run
+Starting program: /home/devh/Build_EmbSys/Engines/build/bin/ViRobot 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+
+
+
+
+
+[22:17:14] [Layer:14] [ViSolEngine] [Thread:22863] Create layer ID: 5412227151057227222
+[22:17:14] [onAttach:68] [Client] [Thread:22863] UserPlayLayer is attached
+[22:17:14] [onAttach:69] [Client] [Thread:22863] GameplayLayer is attached
+
+Breakpoint 1, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:73
+73			int count = 10;
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+Cannot access memory at address 0x0
+(gdb) c
+Continuing.
+
+Breakpoint 2, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:78
+78			mResourceManager.unloadTexture(textures[1]);
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=0, filePath=
+i=1, Addr=0x7ffff2bef068, id=1, filePath=
+i=2, Addr=0x7ffff2bef040, id=2, filePath=
+i=3, Addr=0x7ffff2bef018, id=3, filePath=
+i=4, Addr=0x7ffff2bef138, id=4, filePath=
+i=5, Addr=0x7ffff2bef110, id=5, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=6, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=7, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=8, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=9, filePath=
+(gdb) c
+Continuing.
+
+Breakpoint 3, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:79
+79			mResourceManager.unloadTexture(textures[9]);
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=0, filePath=
+i=1, Addr=0x7ffff2bef068, id=0, filePath=
+i=2, Addr=0x7ffff2bef040, id=2, filePath=
+i=3, Addr=0x7ffff2bef018, id=3, filePath=
+i=4, Addr=0x7ffff2bef138, id=4, filePath=
+i=5, Addr=0x7ffff2bef110, id=5, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=6, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=7, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=8, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=9, filePath=
+(gdb) c
+Continuing.
+
+Breakpoint 4, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:81
+81			mResourceManager.loadTexture();
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=0, filePath=
+i=1, Addr=0x7ffff2bef068, id=0, filePath=
+i=2, Addr=0x7ffff2bef040, id=2, filePath=
+i=3, Addr=0x7ffff2bef018, id=3, filePath=
+i=4, Addr=0x7ffff2bef138, id=4, filePath=
+i=5, Addr=0x7ffff2bef110, id=5, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=6, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=7, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=8, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=4072599952, filePath=
+(gdb) c
+Continuing.
+
+Breakpoint 5, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:82
+82			mResourceManager.loadTexture();
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=0, filePath=
+i=1, Addr=0x7ffff2bef068, id=10, filePath=
+i=2, Addr=0x7ffff2bef040, id=2, filePath=
+i=3, Addr=0x7ffff2bef018, id=3, filePath=
+i=4, Addr=0x7ffff2bef138, id=4, filePath=
+i=5, Addr=0x7ffff2bef110, id=5, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=6, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=7, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=8, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=4072599952, filePath=
+(gdb) c
+Continuing.
+
+Breakpoint 6, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:84
+84			mResourceManager.unloadAllTextures();
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=0, filePath=
+i=1, Addr=0x7ffff2bef068, id=10, filePath=
+i=2, Addr=0x7ffff2bef040, id=2, filePath=
+i=3, Addr=0x7ffff2bef018, id=3, filePath=
+i=4, Addr=0x7ffff2bef138, id=4, filePath=
+i=5, Addr=0x7ffff2bef110, id=5, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=6, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=7, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=8, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=11, filePath=
+(gdb) c
+Continuing.
+
+Breakpoint 7, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:85
+85			textures.clear();
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=4072599656, filePath=
+i=1, Addr=0x7ffff2bef068, id=4072599616, filePath=
+i=2, Addr=0x7ffff2bef040, id=4072599576, filePath=
+i=3, Addr=0x7ffff2bef018, id=0, filePath=
+i=4, Addr=0x7ffff2bef138, id=4072599824, filePath=
+i=5, Addr=0x7ffff2bef110, id=4072599784, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=4072599744, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=0, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=4072599992, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=4072599952, filePath=
+(gdb) c
+Continuing.
+
+Breakpoint 8, UserPlayLayer::onAttach (this=0x555555c49d40) at /home/devh/Build_EmbSys/Engines/ClientProject/source/UI_ViRobotLayer.h:87
+87			for (int i = 0; i < count; i++) {
+(gdb) set $i = 0
+(gdb) while ($i < 10)
+ >    printf "i=%d, Addr=%p, id=%u, filePath=%s\n", $i, textures[$i], textures[$i]->id, textures[$i]->filePath.c_str()
+ >    set $i = $i + 1
+ >end
+i=0, Addr=0x7ffff2bef090, id=4072599656, filePath=
+i=1, Addr=0x7ffff2bef068, id=4072599616, filePath=
+i=2, Addr=0x7ffff2bef040, id=4072599576, filePath=
+i=3, Addr=0x7ffff2bef018, id=0, filePath=
+i=4, Addr=0x7ffff2bef138, id=4072599824, filePath=
+i=5, Addr=0x7ffff2bef110, id=4072599784, filePath=
+i=6, Addr=0x7ffff2bef0e8, id=4072599744, filePath=
+i=7, Addr=0x7ffff2bef0c0, id=0, filePath=
+i=8, Addr=0x7ffff2bef1e0, id=4072599992, filePath=
+i=9, Addr=0x7ffff2bef1b8, id=4072599952, filePath=
+(gdb) 
