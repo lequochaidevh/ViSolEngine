@@ -20,7 +20,7 @@ namespace ViSolEngine
 		EWindowPlatformSpec eWindowSpec;
 		int32_t maxFPS;
 		bool runState; // is_runstate
-		ERendererSpec RendererSpec;
+		ERendererSpec eRendererSpec;
 	};
 	struct VISOL_API PerFrameData {
 		uint32_t frameIndex = 0;

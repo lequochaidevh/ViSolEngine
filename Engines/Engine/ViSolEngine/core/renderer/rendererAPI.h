@@ -6,4 +6,10 @@ namespace ViSolEngine {
 		DirectX
         // Vulkhan ...
 	};
+
+	enum class ERendererMode {
+		Static,
+		Dynamic,
+		Stream
+	};
 }

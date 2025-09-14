@@ -15,6 +15,8 @@
 
 #include "renderer/renderer2D.h"
 
+#include "resource/resourceManager.h"
+
 /*Define General function for iterator - rbegin to rend at class have vector*/
 #define DISPATCH_LAYER_EVENT(eventType, eventContext) \
 for (auto iter = mLayerStack->rbegin(); iter != mLayerStack->rend(); ++iter) {\
@@ -78,6 +80,7 @@ namespace ViSolEngine
 
 		mSystemManager->onInit();
 		mRenderer->onInit(mConfig);
+		ResourceManager::onInit(mConfig.eRendererSpec);
 		return true;
 	}
 
@@ -142,9 +145,10 @@ namespace ViSolEngine
 
     void Application::shutdown() {
 		//GlobalMemoryUsage::get().freeOnStack(mLayerStack);
+		mRenderer->onShutDown();
 		mSystemManager->onShutdown();
-
 		mNativeWindow->shutdown();
+		ResourceManager::onShutdown(); // TODO DECLARE
 		MemoryMonitor::get().clear();
 		MemoryMonitor::get().detectMemoryLeaks();
 	}

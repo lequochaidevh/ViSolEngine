@@ -34,7 +34,7 @@ ViSolEngine::Application* ViSolEngine::createApplication() {
 	appConfig.eWindowSpec = ViSolEngine::EWindowPlatformSpec::GLFW;
 	appConfig.maxFPS = 60;
 	appConfig.runState = true;
-	appConfig.RendererSpec = ERendererSpec::OpenGL;
+	appConfig.eRendererSpec = ERendererSpec::OpenGL;
 	
 	return new ViRobot(appConfig);
 }

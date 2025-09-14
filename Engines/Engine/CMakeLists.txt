@@ -21,6 +21,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include/ViSolEngine>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Vendors/glfw>
     $<INSTALL_INTERFACE:include/GLFW>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Vendors/glm>
+    $<INSTALL_INTERFACE:include/glm>
 )
 #
 #     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Vendors/${platform}/spdlog>
@@ -65,6 +67,7 @@ target_link_libraries(ViSolEngine
     PUBLIC
         glfw
         glad
+        glm
         )
         
         # spdlog

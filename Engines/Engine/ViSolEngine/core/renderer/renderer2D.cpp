@@ -27,7 +27,7 @@ namespace ViSolEngine {
 	}
 
 	void Renderer::onInit(const ApplicationConfiguration& appConfig) {
-		submit([rendererSpec = appConfig.RendererSpec]() {
+		submit([rendererSpec = appConfig.eRendererSpec]() {
 			RenderCommand::onInit(rendererSpec);
 		});
 		CORE_LOG_TRACE("Renderer init success");

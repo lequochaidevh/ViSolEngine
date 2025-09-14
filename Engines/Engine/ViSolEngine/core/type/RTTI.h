@@ -22,7 +22,7 @@ namespace ViSolEngine {
 	virtual const ViSolEngine::RTTI& getRunTimeTypeInfo() const;
 
 #define DEFINE_RTTI(typeName, parent) \
-	const ViSolEngine::RTTI typeName::runTimeType(#typeName, parent); \
+	const ViSolEngine::RTTI typeName::runTimeType(#typeName, &parent); \
 	const ViSolEngine::RTTI& typeName::getRunTimeTypeInfo() const { return runTimeType; }
 
 #define DEFINE_RTTI_NO_PARENT(typeName) \
