@@ -1,6 +1,7 @@
-#include"renderer2D.h"
-#include"core/logger/logger.h"
-
+#include "renderer2D.h"
+#include "core/logger/logger.h"
+#include "core/application.h"
+#include "renderCommand.h"
 namespace ViSolEngine {
 	DEFINE_RTTI_NO_PARENT(Renderer)
 
@@ -12,7 +13,8 @@ namespace ViSolEngine {
 
 	}
 
-	void Renderer::onInit() {
+	void Renderer::onInit(const ApplicationConfiguration& appConfig) {
+		RenderCommand::onInit(appConfig.RendererSpec);
 		CORE_LOG_TRACE("Renderer init success");
 	}
 
@@ -28,7 +30,8 @@ namespace ViSolEngine {
 
 	}
 
-	void Renderer::shutDown() {
+	void Renderer::onShutDown() {
 		CORE_LOG_TRACE("Renderer is shutdown");
+		RenderCommand::onShutdown();
 	}
 }

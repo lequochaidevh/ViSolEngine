@@ -3,8 +3,7 @@
 #include "pch.h"
 #include "core/logger/logger.h"
 #include "core/application.h"
-#define GLFW_GL_IMPLEMENTATION
-#include <glad/gl.h>
+
 #include<GLFW/glfw3.h>
 namespace ViSolEngine {
 	GLFWPlatformWindow::GLFWPlatformWindow() : mWindow(nullptr) , mData() {
@@ -111,8 +110,6 @@ namespace ViSolEngine {
 		glfwTerminate();
 	}
 	void GLFWPlatformWindow::swapbuffers() {
-		glClearColor(0.3f, 0.3f, 0.6f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(mWindow);
 	}
 	void GLFWPlatformWindow::pollsEvent() {

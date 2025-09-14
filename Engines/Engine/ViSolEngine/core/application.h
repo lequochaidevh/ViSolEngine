@@ -1,14 +1,9 @@
 #pragma once
 #include <pch.h>
-#include "spdlog/spdlog.h"
-#include "logger/logger.h"
-#include "window/window.h"
 #include "window/windowPlatform.h"
 #include "core/event/eventDispatcher.h"
-#include "core/input/inputState.h"
 #include "core/layer/layerStack.h"
 #include "core/time/time.h"
-#include "memory/memoryAllocator.h"
 #include "renderer/rendererAPI.h"
 
 namespace ViSolEngine
@@ -27,8 +22,17 @@ namespace ViSolEngine
 		bool runState; // is_runstate
 		ERendererSpec RendererSpec;
 	};
+	struct VISOL_API PerFrameData {
+		uint32_t frameIndex = 0;
+		bool isCatchUpPhase = false;
+	};
+
 	class VISOL_API Application
 	{
+	public: // Singleton
+		static Application& get();
+	private:
+		static Application* sInstance;
 	public:
 		virtual ~Application() = default;
 		virtual bool init();
@@ -36,6 +40,8 @@ namespace ViSolEngine
 		void run();
 		virtual void onShutdownClient() = 0;
 		virtual void shutdown();
+	public:
+		VISOL_FORCE_INLINE const PerFrameData& getPerFrameData() const { return mPerFrameData; }
 
 	protected:
 		Application() = default;
@@ -74,6 +80,8 @@ namespace ViSolEngine
 		class Renderer* mRenderer;
 	private:
 		Time mTime;
+	private:
+		PerFrameData mPerFrameData;
 	};
 
 	extern Application *createApplication();

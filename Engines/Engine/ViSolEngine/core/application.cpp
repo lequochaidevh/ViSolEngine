@@ -1,15 +1,19 @@
 #include "application.h"
-#include <spdlog/spdlog.h>
-#define GLAD_CL_IMPLEMENTATION
 
+#include <spdlog/spdlog.h>
+#include "logger/logger.h"
+
+#define GLAD_CL_IMPLEMENTATION
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include "memory/memoryMonitor.h"
 
+#include "memory/memoryMonitor.h"
 #include "globalMemory.h"
 #include "ECS/systemManager.h"
 #include "ECS/coordinator.h"
 #include "core/system/system.h"
+
+#include "renderer/renderer2D.h"
 
 /*Define General function for iterator - rbegin to rend at class have vector*/
 #define DISPATCH_LAYER_EVENT(eventType, eventContext) \
@@ -21,13 +25,27 @@ for (auto iter = mLayerStack->rbegin(); iter != mLayerStack->rend(); ++iter) {\
 
 namespace ViSolEngine
 {
+	Application* Application::sInstance = nullptr;
+
+	Application& Application::get() {
+		return *sInstance;
+	}
+
     Application::Application(const ApplicationConfiguration &config) : 
-        mConfig(config) , mEventDispatcher()
+        mConfig(config) , mEventDispatcher(), mPerFrameData()
     {
         mNativeWindow.reset(WindowPlatform::create(config.eWindowSpec));
-		mLayerStack = GlobalMemoryUsage::get().newOnStack<LayerStack>(LayerStack::runTimeType.getTypeName());
-		mSystemManager = GlobalMemoryUsage::get().newOnStack<ECS::SystemManager>(ECS::SystemManager::runTimeType.getTypeName());
-		mCoordinator = GlobalMemoryUsage::get().newOnStack<ECS::Coordinator>(ECS::Coordinator::runTimeType.getTypeName());
+
+		mLayerStack = GlobalMemoryUsage::get().newOnStack<LayerStack>\
+			(LayerStack::runTimeType.getTypeName());
+
+		mSystemManager = GlobalMemoryUsage::get().newOnStack<ECS::SystemManager>\
+			(ECS::SystemManager::runTimeType.getTypeName());
+
+		mCoordinator = GlobalMemoryUsage::get().newOnStack<ECS::Coordinator>\
+			(ECS::Coordinator::runTimeType.getTypeName());
+
+		sInstance = this;
     }
 
     bool Application::init() {
@@ -59,6 +77,7 @@ namespace ViSolEngine
 		collisionSystem.setUpdateInterval(5.0f);
 
 		mSystemManager->onInit();
+		mRenderer->onInit(mConfig);
 		return true;
 	}
 
@@ -89,6 +108,7 @@ namespace ViSolEngine
 			}
 			
 			while (mTime.getDeltaTime() > MAX_DELTA_TIME) {
+				mPerFrameData.isCatchUpPhase = true;
 				for (auto layer : *mLayerStack) {
 					layer->onUpdate(Time(MAX_DELTA_TIME));
 				}
@@ -98,7 +118,7 @@ namespace ViSolEngine
 
 				mTime -= Time(MAX_DELTA_TIME);
 			}
-				
+				mPerFrameData.isCatchUpPhase = false;
 			
 			for (auto layer : *mLayerStack) {
 				layer->onUpdate(mTime);
@@ -111,9 +131,10 @@ namespace ViSolEngine
 			}
 
 			mNativeWindow->swapbuffers();
+
+			mPerFrameData.frameIndex++;
         }
-		
-		
+
         onShutdownClient();
     }
 

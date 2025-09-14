@@ -7,15 +7,16 @@ namespace ViSolEngine {
 	class VISOL_API Renderer {
 	public:
 		DECLARE_RTTI
-
 	public:
 		Renderer();
 		~Renderer();
 
-		void onInit();
+		void onInit(const ApplicationConfiguration& );
 		bool beginScene();
 		void render();
 		void endScene();
-		void shutDown();
+		void onShutDown();
+	public:
+		static void clearColor(float r, float g, float b, float w = 1.0f);
 	};
 }

@@ -1,19 +1,19 @@
 {
   "version": "2.0.0",
   "tasks": [
-    {
-      "label": "CMake Configure",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "-S", ".",
-        "-B", "build",
-        "-DCMAKE_BUILD_TYPE=Debug",
-        "-DCMAKE_INSTALL_PREFIX=../tmp/ViSolEngineInstall"
-      ],
-      "problemMatcher": [],
-      "group": "build"
-    },
+    // {
+    //   "label": "CMake Configure",
+    //   "type": "shell",
+    //   "command": "cmake",
+    //   "args": [
+    //     "-S", ".",
+    //     "-B", "build",
+    //     "-DCMAKE_BUILD_TYPE=Debug",
+    //     "-DCMAKE_INSTALL_PREFIX=../tmp/ViSolEngineInstall"
+    //   ],
+    //   "problemMatcher": [],
+    //   "group": "build"
+    // },
     {
       "label": "CMake Compile",
       "type": "shell",

@@ -1,6 +1,7 @@
 #include "UI_ViRobotLayer.h"
-#include<ViSolEngine/base.h>
-#include<core/system/system.h>
+#include "ViSolEngine/base.h"
+#include "ViSolEngine/core/system/system.h"
+#include "ViSolEngine/core/renderer/renderer2D.h"
 
 UIplayLayer::UIplayLayer() {
 
@@ -30,7 +31,7 @@ void UIplayLayer::onDetach() {
 }
 
 void UIplayLayer::onUpdate(ViSolEngine::Time time) {
-	
+	ViSolEngine::Renderer::clearColor(.3f, 0.3f, 0.6f);
 }
 
 bool UIplayLayer::onKeyPressedEvent(const ViSolEngine::KeyPressedEvent& eventContext) {
