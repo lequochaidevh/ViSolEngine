@@ -65,7 +65,7 @@ namespace ViSolEngine {
 		TAB = 258,
 		BACKSPACE = 259,
 		INSERT = 260,
-		keycodeDELETE = 261,
+		DEL_KC = 261, // DELETE conflict macro with spdlog
 		RIGHT = 262,
 		LEFT = 263,
 		DOWN = 264,

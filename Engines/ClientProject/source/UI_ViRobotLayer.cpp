@@ -31,7 +31,7 @@ void UIplayLayer::onDetach() {
 }
 
 void UIplayLayer::onUpdate(ViSolEngine::Time time) {
-	ViSolEngine::Renderer::clearColor(.3f, 0.3f, 0.6f);
+	ViSolEngine::Renderer::clearColor(1.0f, 0.3f, 0.6f);
 }
 
 bool UIplayLayer::onKeyPressedEvent(const ViSolEngine::KeyPressedEvent& eventContext) {

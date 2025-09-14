@@ -4,7 +4,7 @@
 #include "renderCommand.h"
 namespace ViSolEngine {
 	DEFINE_RTTI_NO_PARENT(Renderer)
-
+	
 	Renderer::Renderer() {
 
 	}
@@ -13,8 +13,23 @@ namespace ViSolEngine {
 
 	}
 
+	RenderCommandQueue Renderer::sRenderCommandQueue;
+
+	void Renderer::submit(const RenderCallback& renderCallback) {
+		if (Application::get().getPerFrameData().isCatchUpPhase) return; // Not submit frame when LAG FRAME.
+		sRenderCommandQueue.enqueue(renderCallback);
+	}
+
+	void Renderer::clearColor(float r, float g, float b, float w) {
+		submit([r, g, b, w]() {
+			RenderCommand::clearColor(r, g, b, w);
+		});
+	}
+
 	void Renderer::onInit(const ApplicationConfiguration& appConfig) {
-		RenderCommand::onInit(appConfig.RendererSpec);
+		submit([rendererSpec = appConfig.RendererSpec]() {
+			RenderCommand::onInit(rendererSpec);
+		});
 		CORE_LOG_TRACE("Renderer init success");
 	}
 
@@ -23,7 +38,7 @@ namespace ViSolEngine {
 	}
 
 	void Renderer::render() {
-
+		sRenderCommandQueue.processAndRender();
 	}
 
 	void Renderer::endScene() {
@@ -32,6 +47,8 @@ namespace ViSolEngine {
 
 	void Renderer::onShutDown() {
 		CORE_LOG_TRACE("Renderer is shutdown");
-		RenderCommand::onShutdown();
+		submit([]() {
+			RenderCommand::onShutdown();
+		});
 	}
 }

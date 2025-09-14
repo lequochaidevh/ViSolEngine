@@ -95,8 +95,6 @@ namespace ViSolEngine
 			// 
 			while (mNativeWindow->getRealTime() - lastFrameTime < minDeltaTime) {} // holding time
 
-			MemoryMonitor::get().update(); // Singleton
-
 			float currentFrameTime = mNativeWindow->getRealTime();
 			mTime = Time(currentFrameTime - lastFrameTime); // explicit
 			lastFrameTime = currentFrameTime;
@@ -122,6 +120,8 @@ namespace ViSolEngine
 			
 			for (auto layer : *mLayerStack) {
 				layer->onUpdate(mTime);
+				mRenderer->render(); // for loop
+				mRenderer->endScene();
 			}
 
 			mSystemManager->onUpdate(Time(MAX_DELTA_TIME));
@@ -132,7 +132,9 @@ namespace ViSolEngine
 
 			mNativeWindow->swapbuffers();
 
+			MemoryMonitor::get().update(); // Singleton - Clear PerFrameAllocator
 			mPerFrameData.frameIndex++;
+
         }
 
         onShutdownClient();

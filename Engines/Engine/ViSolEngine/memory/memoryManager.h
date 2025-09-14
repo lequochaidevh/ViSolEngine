@@ -1,7 +1,6 @@
 #pragma once
 #include "memoryAllocator.h"
 
-
 namespace ViSolEngine {
 	struct MemoryConfiguration {
 		// 10MB default buffer size for a single frame
