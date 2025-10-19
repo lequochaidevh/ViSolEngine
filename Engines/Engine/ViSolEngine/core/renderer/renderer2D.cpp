@@ -18,11 +18,11 @@ namespace ViSolEngine {
 		});
 	}
 	
-	// void Renderer::drawIndexed(uint32_t nums, ERendererPrimitive primitive, uint32_t offset) {
-	// 	submit([nums, primitive, offset]() {
-	// 		RenderCommand::drawIndexed(nums, primitive, offset);
-	// 	});
-	// }
+	void Renderer::drawIndexed(uint32_t nums, ERendererPrimitive primitive, uint32_t offset) {
+		submit([nums, primitive, offset]() {
+			RenderCommand::drawIndexed(nums, primitive, offset);
+		});
+	}
 
 	void Renderer::onInit(const ApplicationConfiguration& appConfig) {
 		submit([rendererSpec = appConfig.eRendererSpec]() {

@@ -60,6 +60,11 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "bitset": "cpp",
+        "complex": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "iomanip": "cpp",
+        "charconv": "cpp"
     },
     // "cmake.configureSettings": {
     //     "CMAKE_BUILD_TYPE": "Debug",
