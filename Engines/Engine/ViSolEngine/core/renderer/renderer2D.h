@@ -7,16 +7,16 @@
 namespace ViSolEngine {
 	class VISOL_API Renderer {
 	public:
-		DECLARE_RTTI
+		~Renderer() = default;
+	protected:
+		Renderer() = default;
 	public:
-		Renderer();
-		~Renderer();
-
-		void onInit(const ApplicationConfiguration&);
-		bool beginScene();
-		void render();
-		void endScene();
-		void onShutDown();
+		static void onInit(const ApplicationConfiguration&);
+		static bool beginScene();
+		static void render();
+		static void endScene();
+		static void onShutDown();
+		static void drawIndexed(uint32_t nums, ERendererPrimitive primitive = ERendererPrimitive::Triangles, uint32_t offset = 0);
 	public:
 		static void submit(const RenderCallback&);
 		static void clearColor(float r, float g, float b, float w = 1.0f);

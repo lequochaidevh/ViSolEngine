@@ -1,7 +1,7 @@
 #include "actor.h"
 
 namespace ViSolEngine {
-	DEFINE_RTTI(Actor, &Object::runTimeType)
+	DEFINE_RTTI(Actor, Object::runTimeType)
 	
 	Actor::Actor(ECS::Coordinator* coordinator) : mCoordinator(coordinator) {
 		mID = mCoordinator->addEntity();

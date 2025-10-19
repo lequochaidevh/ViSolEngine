@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "core/type/object.h"
-#include "renderer/rendererAPI.h"
+#include "core/renderer/rendererAPI.h"
 
 namespace ViSolEngine {
 	class VISOL_API IndexBuffer : public Object {

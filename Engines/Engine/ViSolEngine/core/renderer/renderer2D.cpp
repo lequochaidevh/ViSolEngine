@@ -3,15 +3,7 @@
 #include "core/application.h"
 #include "renderCommand.h"
 namespace ViSolEngine {
-	DEFINE_RTTI_NO_PARENT(Renderer)
-	
-	Renderer::Renderer() {
-
-	}
-
-	Renderer::~Renderer() {
-
-	}
+	// DEFINE_RTTI_NO_PARENT(Renderer)
 
 	RenderCommandQueue Renderer::sRenderCommandQueue;
 
@@ -25,6 +17,12 @@ namespace ViSolEngine {
 			RenderCommand::clearColor(r, g, b, w);
 		});
 	}
+	
+	// void Renderer::drawIndexed(uint32_t nums, ERendererPrimitive primitive, uint32_t offset) {
+	// 	submit([nums, primitive, offset]() {
+	// 		RenderCommand::drawIndexed(nums, primitive, offset);
+	// 	});
+	// }
 
 	void Renderer::onInit(const ApplicationConfiguration& appConfig) {
 		submit([rendererSpec = appConfig.eRendererSpec]() {

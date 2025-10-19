@@ -28,3 +28,17 @@
   ]
 
 }
+
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Windows",
+//             "type": "cppvsdbg",
+//             "request": "launch",
+//             "console": "integratedTerminal",
+//             "cwd": "${workspaceFolder}/build/Game/Debug",
+//             "program": "${workspaceFolder}/build/Game/Debug/Game.exe"
+//         }
+//     ]
+// }

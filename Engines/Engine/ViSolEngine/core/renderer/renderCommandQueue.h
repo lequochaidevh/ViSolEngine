@@ -13,6 +13,6 @@ namespace ViSolEngine {
 		void processAndRender();
 	private:
 		std::vector<RenderCommandCallback*> mRenderCommandCallbackQueue;
-		MemoryManager mMemoryManager;
+		MemoryManager mMemoryManager; // Manage for rendercommand callback
 	};
 }

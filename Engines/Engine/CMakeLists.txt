@@ -67,7 +67,6 @@ target_link_libraries(ViSolEngine
     PUBLIC
         glfw
         glad
-        glm
         )
         
         # spdlog

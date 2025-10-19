@@ -34,7 +34,8 @@ namespace ViSolEngine
 	}
 
     Application::Application(const ApplicationConfiguration &config) : 
-        mConfig(config) , mEventDispatcher(), mPerFrameData()
+        mConfig(config) , mEventDispatcher(), mPerFrameData(),
+		mIsRunning(true), mInputState(nullptr), mTime()
     {
         mNativeWindow.reset(WindowPlatform::create(config.eWindowSpec));
 
@@ -56,10 +57,10 @@ namespace ViSolEngine
 			CORE_LOG_CRITICAL("Window spec created failed");
 			return false;
 		}
-
-		mEventDispatcher.addEventListener<WindowResizedEvent>(BIND_EVENT_FUNCTION(onWindowResizedEvent));
         /*set new heap --- Set value mInputState*/
         mInputState = mNativeWindow->getInputState();
+
+		mEventDispatcher.addEventListener<WindowResizedEvent>(BIND_EVENT_FUNCTION(onWindowResizedEvent));
 		mEventDispatcher.addEventListener<KeyPressedEvent>(BIND_EVENT_FUNCTION(onKeyPressedEvent));
         mEventDispatcher.addEventListener<KeyHeldEvent>(BIND_EVENT_FUNCTION(onKeyHeldEvent));
 		mEventDispatcher.addEventListener<KeyReleasedEvent>(BIND_EVENT_FUNCTION(onKeyReleasedEvent));
@@ -69,17 +70,17 @@ namespace ViSolEngine
 		mEventDispatcher.addEventListener<MouseButtonHeldEvent>(BIND_EVENT_FUNCTION(onMouseButtonHeldEvent));
 		mEventDispatcher.addEventListener<MouseButtonReleasedEvent>(BIND_EVENT_FUNCTION(onMouseButtonReleasedEvent));
 
-		auto& collisionSystem = mSystemManager->addSystem<CollisionResolver>();
-		auto& animationSystem = mSystemManager->addSystem<AnimationSystem>();
-		auto& renderer2D = mSystemManager->addSystem<Renderer2D>();
+		// auto& collisionSystem = mSystemManager->addSystem<CollisionResolver>();
+		// auto& animationSystem = mSystemManager->addSystem<AnimationSystem>();
+		// auto& renderer2D = mSystemManager->addSystem<Renderer2D>();
 
-		mSystemManager->addSystemDependency(&animationSystem, &collisionSystem);
-		mSystemManager->addSystemDependency(&renderer2D, &collisionSystem, &animationSystem);
+		// mSystemManager->addSystemDependency(&animationSystem, &collisionSystem);
+		// mSystemManager->addSystemDependency(&renderer2D, &collisionSystem, &animationSystem);
 
-		collisionSystem.setUpdateInterval(5.0f);
+		// collisionSystem.setUpdateInterval(5.0f);
 
 		mSystemManager->onInit();
-		mRenderer->onInit(mConfig);
+		Renderer::onInit(mConfig);
 		ResourceManager::onInit(mConfig.eRendererSpec);
 		return true;
 	}
@@ -123,14 +124,17 @@ namespace ViSolEngine
 			
 			for (auto layer : *mLayerStack) {
 				layer->onUpdate(mTime);
-				mRenderer->render(); // for loop
-				mRenderer->endScene();
 			}
 
 			mSystemManager->onUpdate(Time(MAX_DELTA_TIME));
 
 			for (auto layer : *mLayerStack) {
 				layer->onGUIRender();
+			}
+
+			if (Renderer::beginScene()) {
+				Renderer::render();
+				Renderer::endScene();
 			}
 
 			mNativeWindow->swapbuffers();
@@ -145,7 +149,7 @@ namespace ViSolEngine
 
     void Application::shutdown() {
 		//GlobalMemoryUsage::get().freeOnStack(mLayerStack);
-		mRenderer->onShutDown();
+		Renderer::onShutDown();
 		mSystemManager->onShutdown();
 		mNativeWindow->shutdown();
 		ResourceManager::onShutdown(); // TODO DECLARE

@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "configs",
+            "includePath": [
+                "${workspaceFolder}/Vendors/x86_64_u20/include/**",
+                "${workspaceFolder}/Vendors/glfw/**",
+                "${workspaceFolder}/Vendors/glm/**",
+                "${workspaceFolder}/Engine/ViSolEngine/**"
+            ],
+            "defines": ["_DEBUG", "VISOL_API"],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}

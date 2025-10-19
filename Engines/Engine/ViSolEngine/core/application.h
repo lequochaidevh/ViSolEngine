@@ -42,7 +42,7 @@ namespace ViSolEngine
 		virtual void shutdown();
 	public:
 		VISOL_FORCE_INLINE const PerFrameData& getPerFrameData() const { return mPerFrameData; }
-
+		VISOL_FORCE_INLINE const ApplicationConfiguration& getConfig() const { return mConfig; }
 	protected:
 		Application() = default;
 		Application(const ApplicationConfiguration &);
@@ -77,10 +77,11 @@ namespace ViSolEngine
 		ECS::SystemManager* mSystemManager;
 		ECS::Coordinator* mCoordinator;
 	private:
-		class Renderer* mRenderer;
+		
 	private:
 		Time mTime;
 	private:
+		bool mIsRunning;
 		PerFrameData mPerFrameData;
 	};
 

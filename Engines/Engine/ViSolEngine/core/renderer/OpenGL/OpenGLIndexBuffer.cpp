@@ -1,7 +1,7 @@
 #include "OpenGLIndexBuffer.h"
 
-#include "renderer/renderer2D.h"
-#include "resource/resourceManager.h"
+#include "core/renderer/renderer2D.h"
+#include "core/resource/resourceManager.h"
 #include "OpenGLFactory.h"
 
 #include <glad/gl.h>
