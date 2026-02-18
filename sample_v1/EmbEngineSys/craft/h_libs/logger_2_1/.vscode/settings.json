@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "csignal": "cpp",
+        "stdexcept": "cpp",
+        "condition_variable": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "string_view": "cpp",
+        "ranges": "cpp"
+    }
+}
