@@ -1,0 +1,29 @@
+
+### QUALCOMM
+App
+ ↓
+OpenGL ES
+ ↓
+EGL Surfaceless
+ ↓
+Mesa
+ ↓
+renderD128
+ ↓
+GPU
+
+GBM
+
+ION (Android old)
+
+DMA-BUF heap (new) Allocate GPU-friendly buffer
+
+gbm_bo (GPU memory)
+      ↓
+EGLImageKHR (import)
+      ↓
+Framebuffer attach
+      ↓
+OpenGL render
+      ↓
+Export fd → encoder / AI
